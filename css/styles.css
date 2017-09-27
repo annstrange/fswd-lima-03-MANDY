@@ -22,13 +22,20 @@ img {
 
 .logo {
   /* border-radius: 50%; */ /* works if the image has a square */
-  width : 100px;
+  width : 50%;
+  /*height : 2em;*/
   margin:auto;
-  margin: 15px auto 30px;
+  /* margin: 15px auto 30px; */
   display:block;
   box-shadow: 0 0 5px #000;  /* valores are (roughly) angle distance and color */
-  float:left;  /* new */
+  float:left; /*  new */
 }
+
+/* .ion-ios-cart-outline {
+  width: 30px;
+  float:right;
+}
+*/
 .main-nav {
   width: 0;
   height: 100vh;
@@ -54,7 +61,7 @@ img {
 
 /* ~ es selector de hermanos */
 #abre-nav:checked ~.main-nav  {
-    /* display: block; */
+    display: block;
     width: 100vw;
     float:left;  /* new */
 }
@@ -77,11 +84,12 @@ img {
   font-size: 2em;
   color: #ffffff;
   padding: 10px 15px;
-  margin:auto;
+  /* margin:auto;  */
   width: 40px;
   background-color: #222222;
   padding: 15px 0;
   text-align: center;
+  float: left;
 }
 
 .banner {
