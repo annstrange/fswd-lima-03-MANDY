@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+
+}
+body {
+  margin:0;
+  font-size: 10px;
+  font-family: 'Raleway', sans-serif;
+  background-image: url (../images/bg-body.png);
+}
+ol, ul {
+  list-style: none;
+  margin:0;
+  padding:0;
+}
+a {
+  text-decoration: none;
+}
+img {
+  width: 100%;
+}
+
+.logo {
+  /* border-radius: 50%; */ /* works if the image has a square */
+  width : 100px;
+  margin:auto;
+  margin: 15px auto 30px;
+  display:block;
+  box-shadow: 0 0 5px #000;  /* valores are (roughly) angle distance and color */
+  float:left;  /* new */
+}
+.main-nav {
+  width: 0;
+  height: 100vh;
+  position: fixed;
+  left:0;
+  right:0;
+  background-color: #222222;
+  /* display: none;  */ /* until you click the hamburguesa */
+  overflow:hidden;
+  transition: 350ms;
+  float:left;  /* new */
+}
+
+.main-nav a {
+  display: block;
+  color: #ffffff;
+  font-size: 1.4em;
+  text-align: left;
+  padding: 1em 0;
+  border-bottom: solid 1px #ffffff;
+  text-transform: uppercase;
+}
+
+/* ~ es selector de hermanos */
+#abre-nav:checked ~.main-nav  {
+    /* display: block; */
+    width: 100vw;
+    float:left;  /* new */
+}
+
+#abre-nav  {
+  display: none;
+
+}
+
+.cierra {
+  color:yellow;
+  font-size: 3em;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.toggle-nav {
+  display:block;
+  font-size: 2em;
+  color: #ffffff;
+  padding: 10px 15px;
+  margin:auto;
+  width: 40px;
+  background-color: #222222;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.banner {
+  display:none;
+}
+
+.product {
+  margin: 15px 0;
+  padding: 0 15px;
+}
+
+.main-footer {
+  background-color: red;
+    border-radius: 10px 10px 0 0;
+
+
+  /*height: 100px;*/
+/*   line-height: 2em; */
+}
+
+.main-footer a {
+    display: block;
+      border-bottom: solid 1px #ffffff;
+      padding: 15px;
+  color: white;
+  text-align: center;
+    font-size: 1.4em;
+  text-transform: uppercase;
+
+}
+
+/* if viewport has width > this.. */
+@media(min-width: 650px) {
+
+  .main-nav{
+    width: 100%;
+    height: auto;
+    position: static;  /* reset to default which is nothing */
+    background-color: transparent;
+    /* don't need to mention anything covered above */
+  }
+
+.main-nav li{
+  float: left;
+  width: 15%;
+  margin: 0 0.83%;
+}
+
+  .main-nav a {
+    background-color: #222222;
+    border-bottom: none;
+
+  }
+  .cierra, .toggle-nav {
+    display: none;
+  }
+
+  .banner {
+    display:block;
+    margin: 30px 0.83%;  /* top-botom right-left */
+  }
+
+ /* container for products */
+  .vip-products {
+     overflow:hidden;
+  }
+
+  .product {
+    margin: 0 0.83% 15px ;
+    padding: 0;    /* use less here */
+    float: left;
+    width: 48.33%;
+  }
+
+.main-footer {
+  text-align: center;
+}
+
+  .main-footer li{
+    display: inline-block;
+  }
+
+  .main-footer a {
+    border-bottom: none;
+    border-right: solid 1px #ffffff;
+  }
+
+.main-footer li:last-child a{
+  border-right: none;
+}
+
+/* if viewport has width > this.. */
+@media(min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .product {
+
+    width: 31.6666667%;
+  }
+
+}
