@@ -3,51 +3,79 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-		<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" >
-		<link href="css/normalize.css" rel="stylesheet">
-		<link href="css/styles.css" rel="stylesheet">
 
-		<title>MANDY</title>
+		<link href="css/normalize.css" rel="stylesheet">
+		<link href="css/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+
+		<title>Mandy.com - Compra arte independiente local</title>
 	</head>
+
 	<body>
 
-	<div class="container">
+		<!-- HEADER -->
 
-		<!-- cabecera -->
 		<header class="main-header">
-			<input type="checkbox" id="abre-nav">
 
-			<label for="abre-nav" class="toggle-nav">
+			<input type="checkbox" id="open-nav">
+
+			<label for="open-nav" class="toggle-nav">
 				<span class="ion-navicon-round"></span>
 			</label>
 
 			<nav class="main-nav">
+
+				<label class="close-nav" for="open-nav">
+					<span class="ion-chevron-left"></span>
+				</label>
+
+				<a href="#" class="shopping-bag">
+					<span class="ion-bag"></span>
+				</a>
+
 				<ul>
-					<li>
-						<label class="cierra" for="abre-nav">
-							<span class="ion-close-circled"></span>
-						</label>
-						<a href="#">home</a>
-					</li>
-					<li><a href="#">quienes</a></li>
-					<li><a href="#">servicios</a></li>
-					<li><a href="#">portfolio</a></li>
-					<li><a href="#">sucursales</a></li>
-					<li><a href="#">contacto</a></li>
+					<li><a href="#">Inicio</a></li>
+					<li><a href="#">FAQs</a></li>
 				</ul>
+
+				<a href="#" class="registro">
+					¿Aún no tienes una cuenta? <u>Regístrate.</u>
+				</a>
+
 			</nav>
 
-			<img src="images/logo.jpg" alt="logo MANDY" class="logo">
+			<a href="index.html">
+				<h1>Mandy</h1>
+			</a>
 
-			<a href src="#" class="ion-ios-cart-outline" ></a>
-
+			<a href src="#" class="ion-search"></a>
 
 		</header>
 
-		<!-- banner -->
-		<section class="banner">
-			<img src="images/img-banner.jpg" alt="banner">
+
+	<!-- CONTAINER -->
+
+	<div class="main-container">
+
+		<!-- INTRO -->
+		<section class="intro">
+
+			<div class="intro-layover">
+
+				<div class="intro-center">
+
+					<h2>Apoya talento local<br><span>independiente</span></h2>
+
+					<form class="main-searchbar" action="" method="get">
+
+						<input type="text" name="main-searchbar" placeholder="Busca aquí">
+
+					</form>
+
+				</div>
+
+			</div>
+
 		</section>
 
 		<!-- productos -->
