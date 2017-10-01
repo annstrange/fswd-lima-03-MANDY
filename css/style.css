@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Raleway)");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Raleway:300,400,600");
 @import url(montserrat/stylesheet.css);
 * {
   box-sizing: border-box; }
 
 body {
-  background-color: #efefef;
+  font-family: "Montserrat Light", sans-serif;
   font-size: 10px;
-  font-family: "Montserrat Light", sans-serif; }
+  color: #000A0F; }
 
 b, strong {
   font-family: "Montserrat Bold", sans-serif; }
@@ -15,23 +15,25 @@ a {
   text-decoration: none; }
 
 ol, ul {
-  list-style: none;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  list-style: none; }
 
 img {
   width: 100%; }
 
-/* HEADER */
+h1, h2, h3, h4 {
+  text-align: center; }
+
 .main-header {
+  position: fixed;
   width: 100vw;
   top: 0;
   padding: 2em;
-  position: fixed;
-  background-color: #fff;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
+  background-color: #fff;
   z-index: 9; }
 
 h1 {
@@ -43,13 +45,13 @@ h1 {
   display: none; }
 
 #open-nav:checked ~ .main-nav {
-  display: block;
+  float: left;
   width: 100vw;
-  float: left; }
+  display: block; }
 
 .toggle-nav, h1, .ion-search, .close-nav, .shopping-bag {
-  color: #000A0F;
   font-size: 3em;
+  color: #000A0F;
   cursor: pointer; }
 
 .close-nav {
@@ -63,9 +65,9 @@ h1 {
   color: #fff !important; }
 
 .registro {
-  color: #fff;
+  padding: 1em;
   font-size: 1.5em;
-  padding: 1em; }
+  color: #fff; }
 
 .main-nav {
   position: fixed;
@@ -74,25 +76,21 @@ h1 {
   width: 0;
   height: 100vh;
   padding-top: 2em;
-  background-color: #000A0F;
   overflow: hidden;
+  background-color: #000A0F;
   transition: 350ms;
   z-index: 10; }
   .main-nav ul {
-    clear: both;
-    margin: 3em 0; }
+    margin: 3em 0;
+    clear: both; }
   .main-nav ul a {
-    display: block;
     padding: 1em;
-    color: #fff;
+    display: block;
     font-size: 1.5em;
-    text-align: left;
     text-transform: uppercase;
+    text-align: left;
+    color: #fff;
     border-bottom: solid 1px #fff; }
-
-/* CONTAINER */
-.main-container {
-  margin-top: 7em; }
 
 .intro {
   height: 100vh;
@@ -103,40 +101,146 @@ h1 {
 .intro-layover {
   position: relative;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.6);
   color: #fff; }
 
 .intro-center {
   position: absolute;
-  top: 30%;
+  top: 40%;
   left: 50%;
   margin-left: -35vw;
   width: 70vw;
   text-align: center; }
   .intro-center form input[type=text] {
     width: 100%;
+    padding: 0.5em;
     text-align: center;
     font-family: "Montserrat Light", sans-serif;
-    padding: 0.5em;
-    font-size: 1.5em; }
+    font-size: 1.5em;
+    border: 1px solid #f5f5f5;
+    box-shadow: 0px; }
 
 h2 {
+  margin: inherit auto;
   font-size: 2.5em;
-  text-shadow: 2px 2px 0px #000A0F;
-  z-index: 100000;
-  margin: inherit auto; }
+  letter-spacing: 2px;
+  line-height: 1.5em;
+  text-shadow: 2px 2px 0px #00333d, 4px 4px 0px #000A0F;
+  z-index: 100000; }
   h2 span {
     text-transform: uppercase;
-    font-style: italic;
-    text-shadow: 2px 2px 0px #000A0F;
-    font-size: 1.2em; }
+    font-size: 1.2em;
+    letter-spacing: normal; }
 
-.product {
-  margin: 15px 0;
-  padding: 0 15px; }
+.about {
+  padding: 2em;
+  background-color: black;
+  font-size: 2em;
+  text-align: center;
+  line-height: 1.5em;
+  color: #fff; }
+  .about p {
+    padding: 0 1.2em 1.2em 0;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff; }
+    .about p span {
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0px #000, 3px 3px 0px #005d70;
+      font-weight: 600; }
 
+.section-title {
+  margin-bottom: 30px;
+  text-align: center; }
+  .section-title img {
+    width: 50px; }
+  .section-title p {
+    margin: 1em 1em 0;
+    font-size: 1.5em;
+    line-height: 1.5em; }
+
+h3 {
+  margin: 0;
+  padding: 40px 0 30px;
+  font-size: 3em; }
+
+.main-container {
+  margin-bottom: 40px; }
+
+.seccion {
+  padding-bottom: 40px; }
+
+.ver-mas {
+  margin-top: 40px;
+  padding: 1em 2em;
+  font-family: "Raleway", "Montserrat", sans-serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #00b8d4;
+  background-color: transparent;
+  border: 2px solid #00b8d4;
+  display: inline-block;
+  cursor: pointer; }
+
+.categoria {
+  width: 100vw;
+  height: 200px;
+  overflow: hidden; }
+
+.imagen-categoria {
+  width: 50%;
+  height: 200px;
+  background-size: cover; }
+
+h4 {
+  z-index: 5;
+  width: 50%;
+  height: 100%;
+  font-size: 2.5em;
+  margin-top: 0px;
+  font-family: "Open Sans Condensed", "Montserrat", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: #f5f5f5;
+  background-image: url("../images/pattern2.png");
+  background-blend-mode: luminosity;
+  text-shadow: 2px 2px 0px #fff;
+  padding: 85px 0;
+  color: #000; }
+
+.categoria:nth-child(2) .imagen-categoria {
+  background-image: url("../images/pintura.jpg");
+  float: right; }
+
+.categoria:nth-child(3) .imagen-categoria {
+  background-image: url("../images/ilustraciones.jpg");
+  float: left; }
+
+.categoria:nth-child(4) .imagen-categoria {
+  background-image: url("../images/escultura.jpg");
+  float: right; }
+
+.categoria:nth-child(5) .imagen-categoria {
+  background-image: url("../images/fotografia.jpg");
+  float: left; }
+
+.categoria:nth-child(6) .imagen-categoria {
+  background-image: url("../images/joyeria.jpg");
+  float: right; }
+
+.categoria:nth-child(even) h4 {
+  float: left; }
+
+.categoria:nth-child(odd) h4 {
+  float: right; }
+
+.artistas-destacados {
+  background-color: #f5f5f5; }
+
+/* FOOTER */
 .main-footer {
-  background-color: red;
+  background-color: #000A0F;
   border-radius: 10px 10px 0 0; }
 
 .main-footer a {
