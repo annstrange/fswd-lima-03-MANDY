@@ -23,6 +23,10 @@
 				<span class="ion-navicon-round"></span>
 			</label>
 
+			<a href="index.html" class="logo-title">
+				<h1>Mandy</h1>
+			</a>
+
 			<!-- NAV -->
 
 			<nav class="main-nav">
@@ -31,26 +35,50 @@
 					<span class="ion-chevron-left"></span>
 				</label>
 
-				<a href="#" class="shopping-bag">
+				<a href="#" class="shopping-bag sb-mobile">
 					<span class="ion-bag"></span>
 				</a>
 
 				<ul>
-					<li><a href="#">Inicio</a></li>
-					<li><a href="#">FAQs</a></li>
+					<li><a href="index.html">Inicio</a></li>
+					<li><a href="#">Cómo funciona</a></li>
+					<li><a href="#">Categorías</a></li>
+					<li><a href="#">Servicios</a></li>
+					<li><a href="faqs.html">FAQs</a></li>
 				</ul>
 
-				<a href="#" class="registro">
-					¿Aún no tienes una cuenta? <u>Regístrate.</u>
-				</a>
+				<span class="registro-mobile">
+					<a href="login.html" class="log-in-mobile">Login</a>
+					<a href="registro.html">
+						¿Aún no tienes cuenta?<br><u>Regístrate.</u>
+					</a>
+				</span>
 
 			</nav>
 
-			<a href="index.html">
-				<h1>Mandy</h1>
-			</a>
+			<div class="icon-nav">
 
-			<a href src="#" class="ion-search"></a>
+				<input type="checkbox" id="open-search">
+
+				<div class="links-desktop">
+					<a href="registro.html">Regístrate</a>
+					<a href="login.html" class="log-in-desktop">Login</a>
+				</div>
+
+				<form action="" method="get" class="top-searchbar">
+					<input type="text" name="top-searchbar" placeholder="¿Qué estás buscando?">
+					<!-- <input type="submit" name="search" value="Ir"> -->
+				</form>
+
+				<label for="open-search" class="top-search">
+						<span class="ion-search"></span>
+				</label>
+
+				<a href="#" class="shopping-bag sb-desktop">
+					<span class="ion-bag"></span>
+				</a>
+
+			</div>
 
 		</header>
 
@@ -69,9 +97,8 @@
 					<h2>Talento local<br><span>independiente</span></h2>
 
 					<form class="main-searchbar" action="" method="get">
-
 						<input type="text" name="main-searchbar" placeholder="Descúbrelo">
-
+						<input type="submit" name="suscribir" value="Buscar">
 					</form>
 
 				</div>
@@ -85,10 +112,17 @@
 
 		<section class="about">
 			<p>Bienvenido a la plataforma donde <span>artistas locales</span> pueden mostrar y ofrecer a lo que le dedican tanto esfuerzo</p>
+
+			<center>
+				<a class="ver-mas">
+					Conoce más
+				</a>
+			</center>
+
 		</section>
 
 
-		<section class="seccion">
+		<section class="seccion fondo-gris">
 
 			<div class="section-title">
 				<h3>Categorías</h3>
@@ -96,57 +130,44 @@
 				<p>Podrás encontrar desde artes plásticas hasta ropa:</p>
 			</div>
 
-			<article class="categoria">
-				<span class="imagen-categoria"></span>
-				<a href="#">
-					<h4>Pintura</h4>
-				</a>
-			</article>
+			<div class="categorias">
 
-			<article class="categoria">
-				<a href="#">
-					<h4>Ilustración</h4>
-				</a>
-				<span class="imagen-categoria"></span>
-			</article>
+				<article class="categoria">
+					<span class="imagen-categoria"></span>
+					<a href="#">
+						<h4>Pintura</h4>
+					</a>
+				</article>
 
-			<article class="categoria">
-				<span class="imagen-categoria"></span>
-				<a href="#">
-					<h4>Escultura</h4>
-				</a>
-			</article>
+				<article class="categoria">
+					<a href="#">
+						<h4>Ilustración</h4>
+					</a>
+					<span class="imagen-categoria"></span>
+				</article>
 
-
-			<article class="categoria">
-				<a href="#">
-					<h4>Fotografía</h4>
-				</a>
-				<span class="imagen-categoria"></span>
-			</article>
-
-			<article class="categoria">
-				<span class="imagen-categoria"></span>
-				<a href="#">
-					<h4>Joyería</h4>
-				</a>
-			</article>
-
-			<center>
-				<a class="ver-mas">
-					Ver más categorías
-				</a>
-			</center>
-
-		</section>
+				<article class="categoria">
+					<span class="imagen-categoria"></span>
+					<a href="#">
+						<h4>Escultura</h4>
+					</a>
+				</article>
 
 
-		<section class="seccion artistas-destacados">
+				<article class="categoria">
+					<a href="#">
+						<h4>Fotografía</h4>
+					</a>
+					<span class="imagen-categoria"></span>
+				</article>
 
-			<div class="section-title">
-				<h3>Artistas destacados</h3>
-				<img src="images/separator.png" alt="Separator">
-				<p>Podrás encontrar desde artes plásticas hasta ropa:</p>
+				<article class="categoria">
+					<span class="imagen-categoria"></span>
+					<a href="#">
+						<h4>Joyería</h4>
+					</a>
+				</article>
+
 			</div>
 
 			<center>
@@ -157,17 +178,130 @@
 
 		</section>
 
+
+		<section class="seccion">
+
+			<div class="section-title">
+				<h3>Artistas destacados</h3>
+				<img src="images/separator.png" alt="Separator">
+				<p>Explora el perfil de los artistas destacados del mes; conoce sus productos y servicios:</p>
+			</div>
+
+			<div class="artistas-destacados">
+
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista1.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Matias Sánchez</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> Palermo, Buenos Aires</h6>
+						<p>Ilustrador</p>
+						<a href="#">Conocer</a>
+				</article>
+
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista3.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Eduardo Gómez</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> San Telmo, Buenos Aires</h6>
+						<p>Diseñador gráfico</p>
+						<a href="#">Conocer</a>
+				</article>
+
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista2.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Martha Pérez</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> Recoleta, Buenos Aires</h6>
+						<p>Pintora</p>
+						<a href="#">Conocer</a>
+				</article>
+
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista4.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Jimena Sánchez</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> Palermo, Buenos Aires</h6>
+						<p>Escultora</p>
+						<a href="#">Conocer</a>
+				</article>
+
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista5.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Jorge Quispe</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> Recoleta, Buenos Aires</h6>
+						<p>Fotógrafo</p>
+						<a href="#">Conocer</a>
+				</article>
+				<article class="artista">
+						<img class="imagen-artista" src="images/artista6.png" alt="pdto 01">
+						<h5 class="artista-etiqueta">Sofía Pérez</h5>
+						<h6 class="artista-contenido"><span class="ion-location"></span> San Telmo, Buenos Aires</h6>
+						<p>Confeccionista</p>
+						<a href="#">Conocer</a>
+				</article>
+
+
+			</div>
+
+			<center>
+				<a class="ver-mas">
+					Ver más artistas
+				</a>
+			</center>
+
+		</section>
+
+		<!-- <section class="seccion">
+
+			<div class="section-title">
+				<h3>Productos recientes</h3>
+				<img src="images/separator.png" alt="Separator">
+				<p>Conoce a los artistas destacados del mes:</p>
+			</div>
+
+			<center>
+				<a class="ver-mas">
+					Ver más categorías
+				</a>
+			</center>
+
+		</section> -->
+
+
 	</div>
 
 	<footer class="main-footer">
-		<ul>
-			<li><a href="#">home</a></li>
-			<li><a href="#">quienes</a></li>
-			<li><a href="#">servicios</a></li>
-			<li><a href="#">portfolio</a></li>
-			<li><a href="#">sucursales</a></li>
-			<li><a href="#">contacto</a></li>
-		</ul>
+
+		<div class="footer-content">
+
+			<div class="newsletter">
+				<p>¡Únete al newsletter y recibe novedades!</p>
+				<form class="main-searchbar" action="" method="get">
+					<input type="text" name="main-searchbar" placeholder="Ingresa tu correo electrónico">
+					<input type="submit" name="suscribir" value="Suscribir">
+				</form>
+			</div>
+
+			<span>Sobre nosotros</span>
+			<ul>
+				<li><a href="#">Inicio</a></li>
+				<li><a href="#">FAQs</a></li>
+				<li><a href="#">Cómo funciona</a></li>
+				<li><a href="#">Regístrate</a></li>
+				<li>
+					<a href="#">
+						<span class="ion-social-facebook"></span>
+					</a>
+					<a href="#">
+						<span class="ion-social-instagram"></span>
+					</a>
+					<a href="#">
+						<span class="ion-social-tumblr"></span>
+					</a>
+					<a href="#">
+						<span class="ion-social-twitter"></span>
+					</a>
+				</li>
+			</ul>
+
+		</div>
+
 	</footer>
 
 	</body>
