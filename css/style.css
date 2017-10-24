@@ -38,6 +38,7 @@ form input[type=submit] {
   color: #fff;
   background-color: #00b8d4;
   border: 0px;
+  border-radius: 0px;
   transition: 250ms; }
 
 form input[type=submit]:hover {
@@ -452,12 +453,13 @@ h6 {
 .page-container {
   width: 85vw;
   padding: 50px;
-  margin: 120px auto;
+  margin: 120px auto 50px;
   background-color: #fff;
   color: #000A0F !important; }
 
 .login-registro-content {
-  max-width: 800px !important; }
+  max-width: 800px !important;
+  overflow: hidden; }
 
 .titulo-login, .titulo-registro {
   position: relative;
@@ -486,45 +488,87 @@ h6 {
 
 .form-login-registro {
   display: block;
+  max-width: 450px;
   margin: auto;
   text-align: center; }
-  .form-login-registro .email, .form-login-registro .user, .form-login-registro .password, .form-login-registro .repassword {
+  .form-login-registro h3 {
+    font-size: 2em; }
+  .form-login-registro input[type="text"], .form-login-registro input[type="password"], .form-login-registro select {
     font-size: 1.5em;
-    max-width: 450px;
     width: 100%;
     border: solid 2px #424242 !important;
+    border-radius: 3px;
     padding: 12px 20px;
     margin: 10px 0;
     outline: none;
     letter-spacing: 1px;
     text-align: left !important;
     font-family: "Montserrat Light", sans-serif; }
+  .form-login-registro .img_profile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1; }
+  .form-login-registro select {
+    height: 40px; }
   .form-login-registro .adicionales-login {
     margin: 20px 0;
     font-size: 1.3em;
-    line-height: 1.8em; }
+    line-height: 1.8em;
+    text-align: center; }
   .form-login-registro .adicionales-login label {
     display: block; }
   .form-login-registro .olvidar {
     text-decoration: underline;
     color: black; }
-  .form-login-registro .boton-ingresar, .form-login-registro .boton-registrate, .form-login-registro .boton-registrarme {
+  .form-login-registro .input-label {
+    display: inline-block;
+    margin: 15px 0 5px;
+    font-size: 1.6em;
+    font-weight: 700; }
+  .form-login-registro button, .form-login-registro .img_profile + label {
     background-color: #00b8d4;
     font-family: "Raleway", "Montserrat", sans-serif;
     font-weight: 700;
     border: 0px;
+    border-radius: 0;
     color: white;
     padding: 1em 2em;
     text-align: center;
     font-size: 1.5em;
     text-transform: uppercase;
-    margin: 0.5em auto;
+    margin: 25px auto 0;
     letter-spacing: 2px;
     cursor: pointer;
     display: block; }
+  .form-login-registro .img_profile + label {
+    font-size: 1em;
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #424242; }
   .form-login-registro .boton-registrate {
     background-color: #000;
-    font-size: 1.2em !important; }
+    font-size: 1.2em !important;
+    margin-top: 10px; }
+  .form-login-registro .boton-registrarme {
+    margin-top: 50px; }
+  .form-login-registro span.error {
+    color: #d10404;
+    text-align: center;
+    font-size: 1.3em;
+    border-top: dotted #d10404 1px;
+    display: block;
+    margin: 0 auto 10px;
+    max-width: 450px;
+    width: 100%;
+    padding-top: 5px; }
+    .form-login-registro span.error .ion-close {
+      margin-right: 5px;
+      font-size: 0.8em; }
 
 .page-container h2 {
   margin: 0 auto 80px;
@@ -583,6 +627,52 @@ h6 {
 
 .abrir-pregunta:checked ~ .pregunta .ion-minus {
   display: inline; }
+
+.img_perfil_container {
+  padding: 15px;
+  text-align: center; }
+
+.imagen-perfil {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  border: solid 1px #f5f5f5;
+  box-shadow: 0 0 5px #f5f5f5;
+  z-index: 3; }
+
+.perfil-view {
+  padding: 0 15px;
+  text-align: center;
+  font-size: 1.6em;
+  line-height: 1.8em; }
+  .perfil-view p {
+    margin: 25px 0; }
+
+.clearfix {
+  clear: both; }
+
+a.boton-modificar, button.boton-modificar {
+  background-color: #00b8d4;
+  font-family: "Raleway", "Montserrat", sans-serif;
+  font-weight: 700;
+  border: 0px;
+  color: white;
+  padding: 1em 2em;
+  text-align: center;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  margin: 25px auto 0;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: inline-block; }
+
+a.boton-imagen {
+  font-size: 1em;
+  display: inline-block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #424242 !important; }
 
 @media(min-width: 600px) {
   .intro-center {
@@ -733,4 +823,33 @@ h6 {
     width: 60%; }
 
   .respuesta {
-    font-size: 1.5em; } }
+    font-size: 1.5em; }
+
+  .form-login-registro {
+    text-align: left; }
+    .form-login-registro .two-input-wrapper {
+      display: inline-flex;
+      width: 100%;
+      justify-content: space-between; }
+      .form-login-registro .two-input-wrapper .input-container {
+        display: inline-block;
+        width: 48%; }
+      .form-login-registro .two-input-wrapper .name, .form-login-registro .two-input-wrapper .surname {
+        margin: inherit 0; }
+    .form-login-registro .img_profile + label {
+      width: auto;
+      margin: 10px 15px;
+      padding: 8px 20px; }
+
+  .img_perfil_container {
+    text-align: right;
+    width: 40%;
+    float: left; }
+
+  .perfil-view {
+    width: 60%;
+    text-align: left;
+    float: right; }
+
+  .clearfix {
+    clear: both; } }

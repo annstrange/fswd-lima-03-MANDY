@@ -59,6 +59,7 @@ form input[type=submit]
   color: #fff
   background-color: $celeste-2
   border: 0px
+  border-radius: 0px
   transition: 250ms
 
 form input[type=submit]:hover
@@ -205,6 +206,7 @@ h1:hover
 
 .links-desktop
   display: none
+
 
 // INTRO
 
@@ -526,12 +528,13 @@ h6
 .page-container
   width: 85vw
   padding: 50px
-  margin: 120px auto
+  margin: 120px auto 50px
   background-color: #fff
   color: $gris-4!important
 
 .login-registro-content
   max-width: 800px!important
+  overflow: hidden
 
 .titulo-login, .titulo-registro
   position: relative
@@ -560,14 +563,18 @@ h6
 
 .form-login-registro
   display: block
+  max-width: 450px
   margin: auto
   text-align: center
 
-  .email, .user, .password, .repassword
+  h3
+    font-size: 2em
+
+  input[type="text"], input[type="password"], select
     font-size: 1.5em
-    max-width: 450px
     width: 100%
     border: solid 2px $gris-3!important
+    border-radius: 3px
     padding: 12px 20px
     margin: 10px 0
     outline: none
@@ -575,10 +582,22 @@ h6
     text-align: left!important
     font-family: $main-font
 
+  .img_profile
+    width: 0.1px
+    height: 0.1px
+    opacity: 0
+    overflow: hidden
+    position: absolute
+    z-index: -1
+
+  select
+    height: 40px
+
   .adicionales-login
     margin: 20px 0
     font-size: 1.3em
     line-height: 1.8em
+    text-align: center
 
   .adicionales-login label
     display: block
@@ -587,26 +606,58 @@ h6
     text-decoration: underline
     color: black
 
-  .boton-ingresar, .boton-registrate, .boton-registrarme
+  .input-label
+    display: inline-block
+    margin: 15px 0 5px
+    font-size: 1.6em
+    font-weight: 700
+
+  button, .img_profile + label
     background-color: $celeste-2
     font-family: $alt-font-2
     font-weight: 700
     border: 0px
+    border-radius: 0
     color: white
     padding: 1em 2em
     text-align: center
     font-size: 1.5em
     text-transform: uppercase
-    margin: 0.5em auto
+    margin: 25px auto 0
     letter-spacing: 2px
     cursor: pointer
     display: block
 
+  .img_profile + label
+    font-size: 1em
+    display: inline-block
+    width: 100%
+    margin: 10px 0
+    padding: 12px
+    background-color: $gris-3
+
   .boton-registrate
     background-color: #000
     font-size: 1.2em!important
+    margin-top: 10px
 
+  .boton-registrarme
+    margin-top: 50px
 
+  span.error
+    color: #d10404
+    text-align: center
+    font-size: 1.3em
+    border-top: dotted #d10404 1px
+    display: block
+    margin: 0 auto 10px
+    max-width: 450px
+    width: 100%
+    padding-top: 5px
+
+    .ion-close
+      margin-right: 5px
+      font-size: 0.8em
 
 // PREGUNTAS FRECUENTES
 
@@ -672,6 +723,54 @@ h6
 .abrir-pregunta:checked ~ .pregunta .ion-minus
   display: inline
 
+// PERFIL DE USUARIO
+
+.img_perfil_container
+  padding: 15px
+  text-align: center
+
+.imagen-perfil
+  width: 150px
+  height: 150px
+  border-radius: 75px
+  border: solid 1px $gris-1
+  box-shadow: 0 0 5px $gris-1
+  z-index: 3
+
+.perfil-view
+  padding: 0 15px
+  text-align: center
+  font-size: 1.6em
+  line-height: 1.8em
+
+  p
+    margin: 25px 0
+
+.clearfix
+  clear: both
+
+a.boton-modificar, button.boton-modificar
+  background-color: $celeste-2
+  font-family: $alt-font-2
+  font-weight: 700
+  border: 0px
+  color: white
+  padding: 1em 2em
+  text-align: center
+  font-size: 1.5em
+  text-transform: uppercase
+  margin: 25px auto 0
+  letter-spacing: 2px
+  cursor: pointer
+  display: inline-block
+
+a.boton-imagen
+  font-size: 1em
+  display: inline-block
+  width: 100%
+  margin: 10px 0
+  padding: 12px
+  background-color: $gris-3!important
 
 
 @media(min-width: 600px)
@@ -846,3 +945,36 @@ h6
 
   .respuesta
     font-size: 1.5em
+
+  .form-login-registro
+    text-align: left
+
+    .two-input-wrapper
+      display: inline-flex
+      width: 100%
+      justify-content: space-between
+
+      .input-container
+        display: inline-block
+        width: 48%
+
+      .name, .surname
+        margin: inherit 0
+
+    .img_profile + label
+      width: auto
+      margin: 10px 15px
+      padding: 8px 20px
+
+  .img_perfil_container
+    text-align: right
+    width: 40%
+    float: left
+
+  .perfil-view
+    width: 60%
+    text-align: left
+    float: right
+
+  .clearfix
+    clear: both
