@@ -16,7 +16,7 @@ if (isLoggedIn()) {
   exit;
   }
 
-  if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  if ($_POST) {
     $erroresTotales = [];
     $name = $_POST['name'];
     $surname = $_POST['surname'];
@@ -25,10 +25,10 @@ if (isLoggedIn()) {
 
     $erroresTotales = validarCambios($_POST, $_FILES);
 
-  if (count($erroresTotales) == 0) {
+  if (empty($erroresTotales)) {
     $erroresTotales = modificarImagen($usuario, $img_profile);
-    if (count($erroresTotales) == 0) {
-      crearUsuarioCambiado($usuario, $_POST, $_FILES);
+    if (empty($erroresTotales)) {
+      crearUsuarioCambiado($usuario, $_POST);
     }
   }
 }

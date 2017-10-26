@@ -12,7 +12,9 @@
       <li><a href="#">Inicio</a></li>
       <li><a href="#">FAQs</a></li>
       <li><a href="#">Cómo funciona</a></li>
-      <li><a href="#">Regístrate</a></li>
+      <?php if(!isLoggedIn()) : ?>
+        <li><a href="#">Regístrate</a></li>
+      <?php endif; ?>
       <li>
         <a href="#">
           <span class="ion-social-facebook"></span>

@@ -8,19 +8,18 @@
 
   $erroresTotales = [];
   $email = '';
-  $esPost = ($_SERVER['REQUEST_METHOD'] == "POST");
 
-  if ($esPost) {
+  if ($_POST) {
     $email = $_POST['email'];
     $erroresTotales = validarLogin($_POST);
-    if (count($erroresTotales) == 0) {
+    if (empty($erroresTotales)) {
       $usuario = comprobarEmail($email);
       logUserIn($usuario);
       if (isset($_POST['remember'])) {
         $time = time() + (60 * 60 * 24 * 365);
         setcookie('idUsuario', $usuario['id'], $time);
       }
-      header('location: perfil_usuario.php');
+      header('location:perfil_usuario.php');
       exit;
     }
   }

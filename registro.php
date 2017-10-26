@@ -26,8 +26,7 @@
   $repass = '';
   $erroresTotales = [];
 
-  $esPost = ($_SERVER['REQUEST_METHOD'] == 'POST');
-  if ($esPost) {
+  if ($_POST) {
     $name = $_POST['name'];
     $surname = $_POST['surname'];
     $username = $_POST['username'];
@@ -40,9 +39,9 @@
 
     $erroresTotales = validarRegistro($_POST, $_FILES);
 
-    if (count($erroresTotales) == 0) {
+    if (empty($erroresTotales)) {
       $erroresTotales = guardarImagen($img_profile);
-      if (count($erroresTotales) == 0) {
+      if (empty($erroresTotales)) {
         crearUsuario($_POST, $_FILES);
         $usuario = comprobarUsuario($username);
         logUserIn($usuario);

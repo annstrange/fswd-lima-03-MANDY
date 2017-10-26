@@ -33,6 +33,7 @@
     <span class="registro-mobile">
       <?php if(isLoggedIn()) : ?>
         <a href="logout.php" class="log-in-mobile">Logout</a>
+        <a href="registro.php"><u>Mi perfil</u></a>
       <?php else : ?>
         <a href="login.php" class="log-in-mobile">Login</a>
         <a href="registro.php">
@@ -47,6 +48,7 @@
     <input type="checkbox" id="open-search">
     <div class="links-desktop">
       <?php if(isLoggedIn()) : ?>
+        <a href="perfil_usuario.php">Mi perfil</a>
         <a href="logout.php" class="log-in-desktop">Logout</a>
       <?php else : ?>
         <a href="registro.php">Regístrate</a>

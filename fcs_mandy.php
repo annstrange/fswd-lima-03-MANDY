@@ -112,56 +112,64 @@
 
   function generarId() {
     $todosUsuarios = todosLosUsuarios();
-    if (count($todosUsuarios) == 0) {
+    if (empty($todosUsuarios)) {
       return 1;
     }
     $elUltimoUsuario = end($todosUsuarios);
     $id = $elUltimoUsuario['id'];
-    return $id + 1;
+    return $id++;
   }
 
   function comprobarEmail($email) {
-   $usuarios = todosLosUsuarios();
-   for ($i = 0; $i < count($usuarios); $i++) {
-     if ($usuarios[$i]['email'] == $email) {
-       return $usuarios[$i];
+    $usuarios = todosLosUsuarios();
+    $usuarioExistente = [];
+    foreach ($usuarios as $usuario) {
+     if ($usuario['email'] == $email) {
+       $usuarioExistente = $usuario;
+       break;
      }
-   }
-   return false;
+    }
+    if (!empty($usuarioExistente)) {
+      return $usuarioExistente;
+    } else {
+      return false;
+    }
   }
 
   function comprobarUsuario($username) {
-   $usuarios = todosLosUsuarios();
-   for ($i = 0; $i < count($usuarios); $i++) {
-     if ($usuarios[$i]['username'] == $username) {
-       return $usuarios[$i];
+    $usuarios = todosLosUsuarios();
+    $usuarioExistente = [];
+    foreach ($usuarios as $usuario) {
+     if ($usuario['username'] == $username) {
+       $usuarioExistente = $usuario;
+       break;
      }
-   }
-   return false;
+    }
+    if (!empty($usuarioExistente)) {
+      return $usuarioExistente;
+    } else {
+      return false;
+    }
   }
 
 
   function guardarImagen($img_profile) {
     $errores = [];
-    $posibles_errores = [
-      "Debes subir una imagen jpg, jpeg, png o gif",
-      "Error " . $img_profile['error'] . ". Intentá de nuevo.",
-    ];
 
     if ($img_profile['error'] == UPLOAD_ERR_OK) {
      $imgName = $img_profile['name'];
-     $imgExt = pathinfo($imgName, PATHINFO_EXTENSION);
+     $imgExt = strtolower(pathinfo($imgName, PATHINFO_EXTENSION));
      $imgTemp = $img_profile['tmp_name'];
-     $ext_ok = ($imgExt == 'jpg' || $imgExt == 'JPG' || $imgExt == 'JPEG' || $imgExt == 'jpeg' || $imgExt == 'png' || $imgExt == 'PNG' || $imgExt == 'gif' || $imgExt == 'GIF');
-     if ($ext_ok) {
+
+     if ($imgExt == "jpg" || $imgExt == "jpeg" || $imgExt == "png" || $imgExt == "gif") {
        $fileName = $_POST['username'] . "." . $imgExt;
        $imgSrc = dirname(__FILE__) . "/images/img_profile/" . $fileName;
        move_uploaded_file($imgTemp, $imgSrc);
      } else {
-       $errores['img_profile'] = $posibles_errores[0];
+       $errores['img_profile'] = "Debes subir una imagen jpg, jpeg, png o gif";
      }
    } else {
-       $errores['img_profile'] = $posibles_errores[1];
+       $errores['img_profile'] = "Error " . $img_profile['error'] . ". Intentá de nuevo.";
      }
    return $errores;
   }
@@ -170,28 +178,23 @@
   // LOG-IN
   function validarLogin($post) {
     $errores = [];
-    $posibles_errores = [
-      "Completá los datos requeridos",
-      "Usa el formato nombre@dominio.com",
-      "Este e-mail no tiene cuenta asociada",
-      "E-mail o contraseña incorrectos"
-    ];
+
     $email = trim($post['email']);
     $pass = trim($post['password']);
     $formato_email = filter_var($email, FILTER_VALIDATE_EMAIL);
 
     if ($pass == '' || $email == '') {
-      $errores['email'] = $posibles_errores[0];
+      $errores['email'] = "Completá los datos requeridos";
     } elseif (!$formato_email) {
-      $errores['email'] = $posibles_errores[1];
+      $errores['email'] = "Usa el formato nombre@dominio.com";
     } elseif (comprobarEmail($email) == false) {
-      $errores['email'] = $posibles_errores[2];
+      $errores['email'] = "Este e-mail no tiene cuenta asociada";
     } else {
       $elUsuario = comprobarEmail($email);
       $password = $elUsuario['password'];
       $password_ingresada = $post['password'];
       if (!password_verify($password_ingresada, $password)) {
-         $errores['email'] = $posibles_errores[3];
+         $errores['email'] = "E-mail o contraseña incorrectos";
       }
     }
     return $errores;
@@ -211,32 +214,38 @@
     return $errores;
   }
 
-  function traerPregunta($email) {
-    $users = todosLosUsuarios();
-    for ($i=0; $i < count($users) ; $i++) {
-      if ($users[$i]['email'] == $email) {
-        return $users[$i]['question'];
+  function traerPregunta($id) {
+    $usuarios = todosLosUsuarios();
+    $usuarioExistente['question'] = '';
+    foreach ($usuarios as $usuario) {
+      if($usuario['id'] == $id) {
+        $usuarioExistente['question'] = $usuario['question'];
+        break;
       }
     }
-    return false;
+    if ($usuarioExistente['question'] != '') {
+      return $usuarioExistente['question'];
+    } else {
+      return false;
+    }
   }
 
-  function comprobarAnswer($answer) {
+  function comprobarAnswer($usuario, $answer) {
     $users = todosLosUsuarios();
     for ($i = 0; $i < count($users); $i++) {
-      if ($users[$i]['answer'] == $answer && $users[$i]['email'] == $_SESSION['userRecover']['email']) {
+      if ($users[$i]['answer'] == $answer && $users[$i]['id'] == $usuario['id']) {
        return $users[$i];
      }
    }
    return false;
   }
 
-  function validarRespuesta($post) {
+  function validarRespuesta($usuario, $post) {
     $answer = trim($post['answer']);
     $errores = [];
     if ($answer == '') {
       $errores['answer'] = "Escribí una respuesta";
-    } elseif (comprobarAnswer($answer) == false) {
+    } elseif (comprobarAnswer($usuario, $answer) == false) {
        $errores['answer'] = "Respuesta incorrecta";
      }
     return $errores;
@@ -257,7 +266,7 @@
     $usuarios = todosLosUsuarios();
     foreach ($usuarios as $usuario) {
       if ($usuario['id'] == $userId) {
-         return $usuario;
+        return $usuario;
       }
     }
     return false;
@@ -300,65 +309,50 @@
 
   function modificarImagen($usuarioExistente, $img_profile) {
     $errores = [];
-    $posibles_errores = [
-      "No aceptamos este formato. Probá guardarla como jpg, jpeg, png o gif",
-      "Error " . $img_profile['error'] . ". Intentá de nuevo.",
-    ];
-    $ext_ok = ($imgExt = 'jpg' || $imgExt = 'JPG' || $imgExt = 'JPEG' || $imgExt = 'jpeg' || $imgExt = 'png' || $imgExt = 'PNG' || $imgExt = 'gif' || $imgExt = 'GIF');
 
     if ($img_profile['error'] == UPLOAD_ERR_OK) {
      $imgName = $img_profile['name'];
-     $imgExt = pathinfo($imgName, PATHINFO_EXTENSION);
+     $imgExt = strtolower(pathinfo($imgName, PATHINFO_EXTENSION));
      $imgTemp = $img_profile['tmp_name'];
-     if ($ext_ok) {
+
+     if ($imgExt == "jpg" || $imgExt == "jpeg" || $imgExt == "png" || $imgExt == "gif") {
        $fileName = $usuarioExistente['username'] . "." . $imgExt;
        $imgSrc = dirname(__FILE__) . "/images/img_profile/" . $fileName;
        move_uploaded_file($imgTemp, $imgSrc);
      } else {
-       $errores['img_profile'] = $posibles_errores[0];
+       $errores['img_profile'] = "Debes subir una imagen jpg, jpeg, png o gif";
      }
    } elseif ($img_profile['error'] == UPLOAD_ERR_NO_FILE) {
      return $errores;
    } else {
-       $errores['img_profile'] = $posibles_errores[1];
+       $errores['img_profile'] = "Error " . $img_profile['error'] . ". Intentá de nuevo.";
      }
    return $errores;
   }
 
-  function crearUsuarioCambiado($usuarioExistente, $post, $files) {
+  function crearUsuarioCambiado($usuarioExistente, $post) {
     $usuarioAGuardar = [
-        'id' => $usuarioExistente['id'],
-        'name' => $post['name'],
-        'surname' => $post['surname'],
-        'username' => $usuarioExistente['username'],
-        'email' => $post['email'],
-        'question' => $usuarioExistente['question'],
-        'answer' => $usuarioExistente['answer'],
-        'password' => $usuarioExistente['password'],
-        'img_profile' => $files['img_profile']
+        "id" => $usuarioExistente['id'],
+        "name" => $post['name'],
+        "surname" => $post['surname'],
+        "username" => $usuarioExistente['username'],
+        "email" => $post['email'],
+        "question" => $usuarioExistente['question'],
+        "answer" => $usuarioExistente['answer'],
+        "password" => $usuarioExistente['password']
       ];
+    $usuariosTodos = todosLosUsuarios();
+    $usuariosTodos2 = [];
 
-    return guardarUsuarioCambiado($usuarioAGuardar);
-
-    }
-
-    function guardarUsuarioCambiado($usuarioNuevo) {
-        // re-escribe el archivo en total, con nuevo entrada para el usuario cambiado.
-        $usuariosTodos = todosLosUsuarios();
-        $usuariosTodos2 = [];
-
-        // find user to replace. write each user to the new array of users
-        foreach ($usuariosTodos as $index => $usuario) {
-          if ($usuario["id"] == $usuarioNuevo["id"]) {
-            $usuariosTodos2[] = json_encode($usuarioNuevo).PHP_EOL;
-          }
-          elseif ($usuario["id"] != null) {
-            $usuariosTodos2[] = json_encode($usuario).PHP_EOL;
-          }
-        }
-
-       file_put_contents('todosUsuarios.json', $usuariosTodos2);  // write all users
-       return true;
+    foreach ($usuariosTodos as $usuario) {
+      if ($usuario['id'] == $usuarioAGuardar['id']) {
+        $usuariosTodos2[] = json_encode($usuarioAGuardar) . PHP_EOL;
       }
+      elseif ($usuario['id'] != null) {
+        $usuariosTodos2[] = json_encode($usuario) . PHP_EOL;
+      }
+    }
+    file_put_contents('todosUsuarios.json', $usuariosTodos2);
+  }
 
 ?>
