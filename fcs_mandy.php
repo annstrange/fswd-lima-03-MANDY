@@ -1,10 +1,19 @@
 <?php
-
   session_start();
 
+  // LOGGEO
   if (isset($_COOKIE['idUsuario'])) {
     $_SESSION['idUsuario'] = $_COOKIE['idUsuario'];
   }
+
+  function logUserIn($usuarioRecibido) {
+    $_SESSION['idUsuario'] = $usuarioRecibido['id'];
+  }
+
+  function isLoggedIn() {
+    return isset($_SESSION['idUsuario']);
+  }
+
 
   //REGISTRO
   function validarRegistro($post, $files) {
@@ -22,17 +31,17 @@
     if ($name == '') {
       $errores['name'] = "Completá tu nombre";
     } elseif (!filter_var($name, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z_ ]*$/']])) {
-       $errores['name'] = "Solo letras permitidas";
+       $errores['name'] = "El campo solo debe contener letras";
     } elseif (strlen($name) < 2) {
-      $errores['name'] = "Mínimo 2 caracteres";
+      $errores['name'] = "El nombre debe contener mínimo 2 caracteres";
     }
 
     if ($surname == '') {
       $errores['surname'] = "Completá tu apellido";
     } elseif (!filter_var($surname, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z_ ]*$/']])) {
-      $errores['surname'] = "Solo letras permitidas";
+      $errores['surname'] = "El campo solo debe contener letras";
     } elseif (strlen($surname) < 2) {
-      $errores['surname'] = "Mínimo 2 caracteres";
+      $errores['surname'] = "El apellido debe contener mínimo 2 caracteres";
     }
 
     if ($username == '') {
@@ -60,13 +69,13 @@
     } elseif (!filter_var($answer, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z0-9_ ]*$/']])) {
       $errores['answer'] = "El campo solo debe contener letras o números";
     } elseif (strlen($answer) < 2) {
-      $errores['answer'] = "La respuesta debe tener más de un carácter";
+      $errores['answer'] = "La respuesta debe tener más de un caracter";
     }
 
     if ($pass == '') {
       $errores['password'] = "Completá tu contraseña";
     } elseif (strlen($pass) < 3) {
-      $errores['password'] = "La contraseña debe tener más de 3 carácteres";
+      $errores['password'] = "La contraseña debe tener más de 3 caracteres";
     } elseif (!filter_var($pass, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z0-9]+$/']])) {
       $errores['password'] = "El campo debe contener solo letras o números";
     }
@@ -85,7 +94,7 @@
   }
 
   function crearUsuario($post, $files) {
-    $usuarioAGuardar = [
+    $usuarioAGuardarPHP = [
         'id' => generarId(),
         'name' => $post['name'],
         'surname' => $post['surname'],
@@ -93,29 +102,28 @@
         'email' => $post['email'],
         'question' => $post['question'],
         'answer' => $post['answer'],
-        'password' => password_hash($post['password'],PASSWORD_DEFAULT),
+        'password' => password_hash($post['password'], PASSWORD_DEFAULT)
       ];
-    $usuarioGuardado = json_encode($usuarioAGuardar) . PHP_EOL;      file_put_contents('todosUsuarios.json', $usuarioGuardado, FILE_APPEND);
+    $usuarioAGuardarJSON = json_encode($usuarioAGuardarPHP) . PHP_EOL;      file_put_contents('todosUsuarios.json', $usuarioAGuardarJSON, FILE_APPEND);
   }
-
 
   function todosLosUsuarios() {
     $jsonFile = file_get_contents("todosUsuarios.json");
     $usuariosJSON = explode(PHP_EOL, $jsonFile);
     array_pop($usuariosJSON);
-    $usuariosTodos = [];
+    $usuarios = [];
     foreach ($usuariosJSON as $usuario) {
-      $usuariosTodos[] = json_decode($usuario, true);
+      $usuarios[] = json_decode($usuario, true);
     }
-    return $usuariosTodos;
+    return $usuarios;
   }
 
   function generarId() {
-    $todosUsuarios = todosLosUsuarios();
-    if (empty($todosUsuarios)) {
+    $usuarios= todosLosUsuarios();
+    if (empty($usuarios)) {
       return 1;
     }
-    $elUltimoUsuario = end($todosUsuarios);
+    $elUltimoUsuario = end($usuarios);
     $id = $elUltimoUsuario['id'];
     return $id++;
   }
@@ -151,7 +159,6 @@
       return false;
     }
   }
-
 
   function guardarImagen($img_profile) {
     $errores = [];
@@ -200,6 +207,7 @@
     return $errores;
   }
 
+
   // RECUPERAR CONTRASEÑA
   function validarEmailRecu($post) {
     $errores = [];
@@ -212,6 +220,19 @@
        $errores['email'] = "E-mail incorrecto";
     }
     return $errores;
+  }
+
+  function validarNuevaPass($post) {
+    $errores['password'] = '';
+    $pass = trim($post['newpass']);
+    if ($pass == '') {
+      $errores['password'] = "Completá tu contraseña";
+    } elseif (strlen($pass) < 3) {
+      $errores['password'] = "La contraseña debe tener más de 3 caracteres";
+    } elseif (!filter_var($pass, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z0-9]+$/']])) {
+      $errores['password'] = "El campo debe contener solo letras o números";
+    }
+    return $errores['password'];
   }
 
   function traerPregunta($id) {
@@ -230,47 +251,51 @@
     }
   }
 
-  function comprobarAnswer($usuario, $answer) {
-    $users = todosLosUsuarios();
-    for ($i = 0; $i < count($users); $i++) {
-      if ($users[$i]['answer'] == $answer && $users[$i]['id'] == $usuario['id']) {
-       return $users[$i];
-     }
-   }
-   return false;
+  function traerRespuesta($usuarioRecibido, $answer) {
+    $usuarios = todosLosUsuarios();
+    $usuarioExistente = [];
+    foreach ($usuarios as $usuario) {
+      if ($usuario['answer'] == $answer && $usuario['id'] == $usuarioRecibido['id']) {
+        $usuarioExistente = $usuario;
+        break;
+      }
+    }
+    if (!empty($usuarioExistente)) {
+      return $usuarioExistente;
+    }
+      return false;
+
   }
 
-  function validarRespuesta($usuario, $post) {
+  function validarRespuesta($usuarioRecibido, $post) {
     $answer = trim($post['answer']);
-    $errores = [];
+    $errores['answer'] = '';
     if ($answer == '') {
       $errores['answer'] = "Escribí una respuesta";
-    } elseif (comprobarAnswer($usuario, $answer) == false) {
+    } elseif (traerRespuesta($usuarioRecibido, $answer) == false) {
        $errores['answer'] = "Respuesta incorrecta";
      }
-    return $errores;
-  }
-
-  // LOGGEO
-  function logUserIn($usuario) {
-    $_SESSION['idUsuario'] = $usuario['id'];
-  }
-
-  function isLoggedIn() {
-    return isset($_SESSION['idUsuario']);
+    return $errores['answer'];
   }
 
 
   // PERFIL DE USUARIO
   function getUserById($userId) {
     $usuarios = todosLosUsuarios();
+    $usuarioExistente = [];
     foreach ($usuarios as $usuario) {
       if ($usuario['id'] == $userId) {
-        return $usuario;
+        $usuarioExistente = $usuario;
+        break;
       }
     }
+    if (!empty($usuarioExistente)) {
+      return $usuario;
+    } else {
     return false;
+    }
   }
+
 
   // MODIFICAR USUARIO
   function validarCambios($post, $files) {
@@ -283,17 +308,17 @@
     if ($name == '') {
       $errores['name'] = "Completá tu nombre";
     } elseif (!filter_var($name, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z_ ]*$/']])) {
-       $errores['name'] = "El campo debe contener solo letras";
+       $errores['name'] = "El campo solo debe contener letras";
     } elseif (strlen($name) < 2) {
-      $errores['name'] = "El nombre debe tener más de un carácter";
+      $errores['name'] = "El nombre debe contener mínimo 2 caracteres";
     }
 
     if ($surname == '') {
       $errores['surname'] = "Completá tu apellido";
     } elseif (!filter_var($surname, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z_ ]*$/']])) {
-      $errores['surname'] = "El campo debe contener solo letras";
+      $errores['surname'] = "El campo solo debe contener letras";
     } elseif (strlen($surname) < 2) {
-      $errores['surname'] = "El apellido debe tener más de un carácter";
+      $errores['surname'] = "El apellido debe contener mínimo 2 caracteres";
     }
 
     if ($email == '') {
@@ -307,7 +332,7 @@
     return $errores;
   }
 
-  function modificarImagen($usuarioExistente, $img_profile) {
+  function modificarImagen($usuarioRecibido, $img_profile) {
     $errores = [];
 
     if ($img_profile['error'] == UPLOAD_ERR_OK) {
@@ -316,7 +341,7 @@
      $imgTemp = $img_profile['tmp_name'];
 
      if ($imgExt == "jpg" || $imgExt == "jpeg" || $imgExt == "png" || $imgExt == "gif") {
-       $fileName = $usuarioExistente['username'] . "." . $imgExt;
+       $fileName = $usuarioRecibido['username'] . "." . $imgExt;
        $imgSrc = dirname(__FILE__) . "/images/img_profile/" . $fileName;
        move_uploaded_file($imgTemp, $imgSrc);
      } else {
@@ -330,29 +355,29 @@
    return $errores;
   }
 
-  function crearUsuarioCambiado($usuarioExistente, $post) {
+  function crearUsuarioCambiado($usuarioRecibido, $post) {
     $usuarioAGuardar = [
-        "id" => $usuarioExistente['id'],
+        "id" => $usuarioRecibido['id'],
         "name" => $post['name'],
         "surname" => $post['surname'],
-        "username" => $usuarioExistente['username'],
+        "username" => $usuarioRecibido['username'],
         "email" => $post['email'],
-        "question" => $usuarioExistente['question'],
-        "answer" => $usuarioExistente['answer'],
-        "password" => $usuarioExistente['password']
+        "question" => $usuarioRecibido['question'],
+        "answer" => $usuarioRecibido['answer'],
+        "password" => $usuarioRecibido['password']
       ];
-    $usuariosTodos = todosLosUsuarios();
-    $usuariosTodos2 = [];
+    $usuarios = todosLosUsuarios();
+    $nuevosUsuarios = [];
 
-    foreach ($usuariosTodos as $usuario) {
+    foreach ($usuarios as $usuario) {
       if ($usuario['id'] == $usuarioAGuardar['id']) {
-        $usuariosTodos2[] = json_encode($usuarioAGuardar) . PHP_EOL;
+        $nuevosUsuarios[] = json_encode($usuarioAGuardar) . PHP_EOL;
       }
       elseif ($usuario['id'] != null) {
-        $usuariosTodos2[] = json_encode($usuario) . PHP_EOL;
+        $nuevosUsuarios[] = json_encode($usuario) . PHP_EOL;
       }
     }
-    file_put_contents('todosUsuarios.json', $usuariosTodos2);
+    file_put_contents('todosUsuarios.json', $nuevosUsuarios);
   }
 
 ?>

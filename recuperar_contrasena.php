@@ -33,7 +33,9 @@
            <?=$erroresTotales['email'];?>
          </span>
        <?php endif; ?>
-       <button type="submit">Buscar</button>
+       <center>
+         <button type="submit">Buscar</button>
+       </center>
     </form>
   </div>
 

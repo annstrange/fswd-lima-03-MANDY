@@ -5,11 +5,14 @@
 ?>
     <div class="page-container login-registro-content">
       <div class="titulo-login">
-          <h3>¿Olvidaste tu contraseña?</h3>
+          <h3>¡Tu password ha sido actualizada!</h3>
       </div>
-     <span>
-       <h3>Tu password ha sido actualizada.</h3>
-     </span>
+
+      <center>
+        <a class="boton-modificar" href="login.php">Ir al login</a> &nbsp;
+        <a class="boton-modificar" href="index.php">Volver al inicio</a>
+      </center>
+
     </div>
 
   </body>

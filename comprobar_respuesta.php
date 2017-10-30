@@ -16,18 +16,20 @@
     "q5" => "¿Cuál es tu película favorita?",
     "q6" => "¿Cuál es tu sueño?"
   ];
-  $erroresTotales = [];
+
+  $erroresTotales['answer'] = '';
+  $erroresTotales['password'] = '';
 
   if ($_POST) {
-      $erroresTotales = validarRespuesta($usuario, $_POST);
-      if(empty($erroresTotales)) {
-        $erroresTotales = validarNuevaPass();
-      }
-      if (empty($erroresTotales)) {
-        unset($_SESSION['userRecover']);
-        header('Location:contrasena_actualizada.php');
-        exit;
-      }
+    $erroresTotales['answer'] = validarRespuesta($usuario, $_POST);
+    $erroresTotales['password'] = validarNuevaPass($_POST);
+    var_dump($erroresTotales);
+    if ($erroresTotales['answer'] == ''
+    && $erroresTotales['password'] == '') {
+      unset($_SESSION['userRecover']);
+      header('Location:contrasena_actualizada.php');
+      exit;
+    }
   }
 
   $pregunta = traerPregunta($usuario['id']);
@@ -44,20 +46,20 @@
        <form class="form-login-registro" method="post">
          <label class="input-label"><?=$pregunta;?></label><br>
          <input type="text" name="answer" placeholder="Respuesta">
-         <?php if (!empty($erroresTotales)): ?>
+         <?php if ($erroresTotales['answer'] != '') : ?>
            <span class="error">
              <span class="ion-close"></span>
              <?=$erroresTotales['answer'];?>
            </span>
          <?php endif; ?>
          <label class="input-label">Ingresa una nueva contraseña</label><br>
-         <input type="text" name="new_password" placeholder="Contraseña">
-         <?php if (!empty($erroresTotales)): ?>
+         <input type="password" name="newpass" placeholder="Contraseña">
+         <?php if ($erroresTotales['password'] != '') : ?>
            <span class="error">
              <span class="ion-close"></span>
              <?=$erroresTotales['password'];?>
            </span>
-         <?php endif; ?>
+         <?php endif;?>
          <button class="boton-ingresar" type="submit">Enviar</button>
        </form>
      </div>

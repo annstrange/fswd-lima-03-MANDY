@@ -83,7 +83,7 @@ require_once('includes/header.php');
         </span>
       <?php endif;?>
 
-      <label class="input-label" for="email">Correo Electrónico</label><br>
+      <label class="input-label" for="email">Correo electrónico</label><br>
       <input type="text" name="email" value="<?=$email;?>">
       <?php if (isset($erroresTotales['email'])): ?>
         <span class="error">
