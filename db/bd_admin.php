@@ -46,7 +46,18 @@ function todosLosUsuarios() {
 
 function createSchema() {
   // This is not working because if I don't have the mandy_db schema, I can't connect.
-  $db = connectarDB();
+  $dsn = 'mysql:host=localhost; charset=utf8mb4;port:3306';
+  $db_user = 'root';
+  $db_pass = 'root';
+  $opciones = array( PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION );
+
+  try {
+    $db = new PDO($dsn, $db_user, $db_pass, $opciones);
+  }
+  catch( PDOException $Exception ) {
+      echo ("<br>".$Exception->getMessage()."<br>");
+  }
+
   if ($db) {
     try {
       $ddl = "CREATE SCHEMA IF NOT EXISTS `mandy_db` DEFAULT CHARACTER SET utf8 ;";
@@ -84,7 +95,7 @@ function dropSchema() {
 function createTablaUsuario () {
   $db = connectarDB();
 
-  $ddl = "CREATE TABLE IF NOT EXISTS Usuario (
+  $ddl = "CREATE TABLE IF NOT EXISTS usuario (
       id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
       name VARCHAR(45) NOT NULL,
       surname VARCHAR(100) NOT NULL,
@@ -106,7 +117,7 @@ function createTablaUsuario () {
 function dropTablaUsuario () {
   $db = connectarDB();
 
-  $ddl = "DROP TABLE mandy_db.Usuario; ";
+  $ddl = "DROP TABLE mandy_db.usuario; ";
 
   try {
     $result=$db->exec($ddl);
