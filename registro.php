@@ -42,8 +42,10 @@
     if (empty($erroresTotales)) {
       $erroresTotales = guardarImagen($img_profile);
       if (empty($erroresTotales)) {
-        crearUsuario($_POST, $_FILES);
-        $usuario = comprobarUsuario($username);
+        //crearUsuario($_POST, $_FILES);
+        $userId = insertUsuarioDB($_POST, $_FILES);
+        // $usuario = comprobarUsuario($username);
+        $usuario = getUserById($userId);
         logUserIn($usuario);
         header('location:perfil_usuario.php');
         exit;

@@ -1,5 +1,6 @@
 <?php
   session_start();
+	require_once('db/conexion.php');
 
   // LOGGEO
   if (isset($_COOKIE['idUsuario'])) {
@@ -94,6 +95,7 @@
   }
 
   function crearUsuario($post, $files) {
+    $rowid = 0;
     $usuarioAGuardarPHP = [
         'id' => generarId(),
         'name' => $post['name'],
@@ -104,10 +106,14 @@
         'answer' => $post['answer'],
         'password' => password_hash($post['password'], PASSWORD_DEFAULT)
       ];
-    $usuarioAGuardarJSON = json_encode($usuarioAGuardarPHP) . PHP_EOL;      file_put_contents('todosUsuarios.json', $usuarioAGuardarJSON, FILE_APPEND);
+    //$usuarioAGuardarJSON = json_encode($usuarioAGuardarPHP) . PHP_EOL;
+    //file_put_contents('todosUsuarios.json', $usuarioAGuardarJSON, FILE_APPEND);
+    $rowid = insertUsuarioDB($usuarioAGuardarPHP);
   }
 
-  function todosLosUsuarios() {
+
+  /* function todosLosUsuarios() {
+    // no lo usamos
     $jsonFile = file_get_contents("todosUsuarios.json");
     $usuariosJSON = explode(PHP_EOL, $jsonFile);
     array_pop($usuariosJSON);
@@ -116,9 +122,10 @@
       $usuarios[] = json_decode($usuario, true);
     }
     return $usuarios;
-  }
+  }  */
 
-  function generarId() {
+/*  function generarId() {
+    // no lo usamos
     $usuarios= todosLosUsuarios();
     if (empty($usuarios)) {
       return 1;
@@ -126,10 +133,13 @@
     $elUltimoUsuario = end($usuarios);
     $id = $elUltimoUsuario['id'];
     return $id++;
-  }
+  }  */
 
   function comprobarEmail($email) {
-    $usuarios = todosLosUsuarios();
+    // devuelva true si hay usuario con este email
+
+    // no lo usamos este metodo
+    /* $usuarios = todosLosUsuarios();
     $usuarioExistente = [];
     foreach ($usuarios as $usuario) {
      if ($usuario['email'] == $email) {
@@ -141,11 +151,35 @@
       return $usuarioExistente;
     } else {
       return false;
+    }  */
+
+    // Nuevo:  uso BD para compartir.
+    // Solo necesito "prepare" si queremos usar el query con frequencia con valores differente.
+    // Por ejemplo, la busca de productos va a usar la misma query de productos muchas veces.
+    // Debemos pre-prepare eso, o ejecutar directamente.
+    $db = connectarDB();
+    $query = $db->prepare("SELECT Id, Email
+        FROM usuario
+        WHERE Email = '$email'
+        ");
+    $query->execute();
+
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+      //var_dump($results);
+      $db = null;
+    // Para hacer:  try catch, y confirma tengo una linea
+    if (count($results) > 0){
+      return true;
     }
+    else {
+      return false;
+    }
+
   }
 
   function comprobarUsuario($username) {
-    $usuarios = todosLosUsuarios();
+    // devuelva true si hay usuario con este username
+    /* $usuarios = todosLosUsuarios();
     $usuarioExistente = [];
     foreach ($usuarios as $usuario) {
      if ($usuario['username'] == $username) {
@@ -156,6 +190,23 @@
     if (!empty($usuarioExistente)) {
       return $usuarioExistente;
     } else {
+      return false;
+    }  */
+    $db = connectarDB();
+    $query = $db->prepare("SELECT Id, Email
+        FROM usuario
+        WHERE Username = '$username'
+        ");
+    $query->execute();
+
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+      //var_dump($results);
+      $db = null;
+    // Para hacer:  try catch, y confirma tengo una linea
+    if (count($results) > 0){
+      return true;
+    }
+    else {
       return false;
     }
   }
@@ -236,14 +287,15 @@
   }
 
   function traerPregunta($id) {
-    $usuarios = todosLosUsuarios();
+    //$usuarios = todosLosUsuarios();
+    $usuario = getUserById($id);
     $usuarioExistente['question'] = '';
-    foreach ($usuarios as $usuario) {
+    // foreach ($usuarios as $usuario) {
       if($usuario['id'] == $id) {
         $usuarioExistente['question'] = $usuario['question'];
-        break;
+        // break;
       }
-    }
+    //}
     if ($usuarioExistente['question'] != '') {
       return $usuarioExistente['question'];
     } else {
@@ -252,14 +304,15 @@
   }
 
   function traerRespuesta($usuarioRecibido, $answer) {
-    $usuarios = todosLosUsuarios();
+    //$usuarios = todosLosUsuarios();
+    $usuario = getUserById($id);
     $usuarioExistente = [];
-    foreach ($usuarios as $usuario) {
+    //foreach ($usuarios as $usuario) {
       if ($usuario['answer'] == $answer && $usuario['id'] == $usuarioRecibido['id']) {
         $usuarioExistente = $usuario;
-        break;
+        //break;
       }
-    }
+    //}
     if (!empty($usuarioExistente)) {
       return $usuarioExistente;
     }
@@ -281,7 +334,7 @@
 
   // PERFIL DE USUARIO
   function getUserById($userId) {
-    $usuarios = todosLosUsuarios();
+/*    $usuarios = todosLosUsuarios();
     $usuarioExistente = [];
     foreach ($usuarios as $usuario) {
       if ($usuario['id'] == $userId) {
@@ -293,7 +346,29 @@
       return $usuario;
     } else {
     return false;
+  }  */
+
+    // Usa el BD
+    $db = connectarDB();
+
+    $query = $db->prepare("SELECT Id as id, name, surname, username, email, question, answer, password
+        FROM usuario
+        WHERE Id = '$userId'
+        LIMIT 1
+        ");
+    try {
+      $query->execute();
+
+      $results = $query->fetchAll(PDO::FETCH_ASSOC);
+      var_dump($results);
+      $db = null;
     }
+    catch (PDOException $ex) {
+      echo ("Failure in getUserById():".$ex->getMessage()."");
+    }
+
+
+    return $results[0];
   }
 
 
@@ -355,7 +430,7 @@
    return $errores;
   }
 
-  function crearUsuarioCambiado($usuarioRecibido, $post) {
+/*  function crearUsuarioCambiado($usuarioRecibido, $post) {
     $usuarioAGuardar = [
         "id" => $usuarioRecibido['id'],
         "name" => $post['name'],
@@ -366,6 +441,7 @@
         "answer" => $usuarioRecibido['answer'],
         "password" => $usuarioRecibido['password']
       ];
+
     $usuarios = todosLosUsuarios();
     $nuevosUsuarios = [];
 
@@ -378,6 +454,130 @@
       }
     }
     file_put_contents('todosUsuarios.json', $nuevosUsuarios);
+
+  }  */
+
+  // Bases de Datos metodos
+  function updateUsuario($usuarioRecibido, $post) {
+    // hace UPDATE to userId.  Para hacer, prueba cada valor isset. 
+
+    $usuarioAGuardar = [
+        "id" => $usuarioRecibido['id'],
+        "name" => $post['name'],
+        "surname" => $post['surname'],
+        "username" => $usuarioRecibido['username'],
+        "email" => $post['email'],
+        "question" => $usuarioRecibido['question'],
+        "answer" => $usuarioRecibido['answer'],
+        "password" => $usuarioRecibido['password']
+      ];
+
+      $db = connectarDB();
+      $sqlQuery = "UPDATE usuario SET name = :name,
+            surname = :surname,
+            username = :username,
+            email=:email,
+            question = :question,
+            answer = :answer,
+            password = :password
+          WHERE id = :id;  ";
+
+      $statement = $db->prepare($sqlQuery);
+      $statement->bindParam(":id", $usuario['id'], PDO::PARAM_INT);
+      $statement->bindParam(":name", $usuario['name'], PDO::PARAM_STR);
+      $statement->bindParam(":surname", $usuario['surname'], PDO::PARAM_STR);
+      $statement->bindParam(":username", $usuario['username'], PDO::PARAM_STR);
+      $statement->bindParam(":email", $usuario['email'], PDO::PARAM_STR);
+      $statement->bindParam(":question", $usuario['question'], PDO::PARAM_STR);
+      $statement->bindParam(":answer", $usuario['answer'], PDO::PARAM_STR);
+      $statement->bindParam(":password", $usuario['password'], PDO::PARAM_STR);
+
+      try {
+        $statement->execute();
+        $db = null;
+      }
+      catch (PDOException $ex) {
+        echo "Failure in updateUsuario()".$ex->getMessage();
+      }
+
+      return true;
   }
 
+  function todosLosUsuariosDB() {
+  // Devuelva array de usuarios de base de datos (BD)
+  // En realidad, no necesitamos traer todos usuarios con BD.
+  $db = connectarDB();
+  $query = $db->prepare("SELECT Id, Name, Surname, Username, Email, Password
+      FROM usuario
+      ");
+    $query->execute();
+
+    $results = $query->fetchAll(PDO::FETCH_ASSOC);
+    var_dump($results);
+
+ //VALUES ($usuario[id], '$usuario[name]', '$usuario[surname]', '$usuario[username]', '$usuario[email]', '$usuario[password]')";
+  return $results;
+}
+
+function generarIdDB() {
+  // no lo usamos porque Auto Increment lo genera
+    $db = connectarDB();
+    $query = $db->prepare("SELECT MAX(Id) as Id
+        FROM usuario
+        ");
+      $query->execute();
+
+      $results = $query->fetchAll(PDO::FETCH_ASSOC);
+
+      $id = $results[0]['Id'];
+      var_dump($results);
+
+    // Para hacer:  try catch, y confirma tengo una linea
+    return $id +1;
+
+  }
+
+  function insertUsuarioDB($usuario){
+    // expect $usuario to be an associative array
+      $rowid = 0;
+      $db = connectarDB();
+      $sqlQuery = "INSERT INTO usuario(Name,Surname,Username,Email,Password) VALUES(:name,:surname,:username,:email,:password)";
+
+      $statement = $db->prepare($sqlQuery);
+
+      // format if $usuario passed in is an Object
+      /*    $statement->bindParam(":user_id", $employee->getUserId(), PDO::PARAM_INT);
+          $statement->bindParam(":name", $employee->getName(), PDO::PARAM_STR);
+          $statement->bindParam(":address", $employee->getAddress(), PDO::PARAM_STR);
+          $statement->bindParam(":city", $employee->getCity(), PDO::PARAM_STR);
+      */
+        $statement->bindParam(":name", $usuario['name'], PDO::PARAM_STR);
+          $statement->bindParam(":surname", $usuario['surname'], PDO::PARAM_STR);
+          $statement->bindParam(":username", $usuario['username'], PDO::PARAM_STR);
+          $statement->bindParam(":email", $usuario['email'], PDO::PARAM_STR);
+          $statement->bindParam(":password", $usuario['password'], PDO::PARAM_STR);
+
+        $statement->execute();
+
+        // $result = $statement->fetch(PDO::FETCH_ASSOC);
+        // $rowid = $db.lastInsertId();  // this function wasn't found.
+
+        // Trae Id
+        $queryId = $db->prepare("SELECT Id
+            FROM usuario
+            WHERE username = :username
+                ORDER BY Id desc
+            LIMIT 1
+            ");
+        $queryId->bindParam(":username", $usuario['username'], PDO::PARAM_STR);
+        $queryId->execute();
+
+          $results = $queryId->fetchAll(PDO::FETCH_ASSOC);
+          var_dump($results);
+
+          $db = null;
+          echo "<br><br><br><br><br> Hi from insertTest";
+          var_dump($results);
+          return $results[0]['Id'];
+      }
 ?>

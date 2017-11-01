@@ -28,7 +28,7 @@ if (isLoggedIn()) {
   if (empty($erroresTotales)) {
     $erroresTotales = modificarImagen($usuario, $img_profile);
     if (empty($erroresTotales)) {
-      crearUsuarioCambiado($usuario, $_POST);
+      updateUsuario($usuario, $_POST);
     }
   }
 }

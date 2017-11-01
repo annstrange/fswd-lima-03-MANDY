@@ -2,6 +2,27 @@
 	require_once('fcs_mandy.php');
 	require_once('includes/head.php');
 	require_once('includes/header.php');
+	require_once('db/conexion.php');
+
+	$idInsert = 0;
+	$usuarioTest = [
+		"name" => 'ann2',
+		"surname" => 'surname2',
+		"username" => 'username',
+		"email" => 'email@email.com',
+		"question" => 'question',
+		"answer" => 'answer',
+		"password" => 'password',
+	];
+	echo "<br><br><br><br><br> Hi";
+	//$idInsert = insertUsuarioDB($usuarioTest);
+	//echo "<br><br><br><br><br> idInsert: $idInsert";
+
+//	$exists1 = comprobarUsuario('username');
+//  echo "username test 1 $exists1";
+//	$exists2 = comprobarUsuario('email22');
+//  echo "username test 2 $exists2";
+
 ?>
 
 	<!-- CONTAINER -->
