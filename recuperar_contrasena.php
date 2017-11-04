@@ -6,9 +6,9 @@
 
     if ($_POST) {
       $email = trim($_POST['email']);
-      $erroresTotales = validarEmailRecu($_POST);
+      $erroresTotales = validarEmailRecuBD($_POST);
       if (empty($erroresTotales)) {
-        $usuario = comprobarEmail($email);
+        $usuario = comprobarEmailBD($email);
         $_SESSION['userRecover'] = $usuario;
         header('Location:comprobar_respuesta.php');
         exit;

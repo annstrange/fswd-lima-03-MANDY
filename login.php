@@ -11,9 +11,9 @@
 
   if ($_POST) {
     $email = $_POST['email'];
-    $erroresTotales = validarLogin($_POST);
+    $erroresTotales = validarLoginBD($_POST);
     if (empty($erroresTotales)) {
-      $usuario = comprobarEmail($email);
+      $usuario = comprobarEmailBD($email);
       logUserIn($usuario);
       if (isset($_POST['remember'])) {
         $time = time() + (60 * 60 * 24 * 365);

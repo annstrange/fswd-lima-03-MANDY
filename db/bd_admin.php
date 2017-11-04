@@ -5,79 +5,9 @@
 $db = null;
 require_once('conexion.php');
 
-
-
-function import_json() {
-  // devuelva el numero de records imported successfully.
-  $db = connectarDB();
-
-  $todosUsuarios = todosLosUsuarios();
-  if (empty($todosUsuarios)) {
-    return 0;
-  }
-  foreach ($todosUsuarios as $usuario){
-      var_dump($usuario);
-
-      $sql = "INSERT INTO usuario (name, surname, username, email, question, answer, password)
-      VALUES ('$usuario[name]', '$usuario[surname]', '$usuario[username]', '$usuario[email]', '$usuario[question]','$usuario[answer]', '$usuario[password]')";
-      try {
-        $query = $db->prepare($sql);
-        echo ($sql);
-        $query->execute();
-    }
-    catch (PDOException $ex) {
-      echo "Failure in import_json(): ". $ex->getMessage()." <br>";
-    }
-
-  }
-
-}
-
-function todosLosUsuarios() {
-  $jsonFile = file_get_contents("../todosUsuarios.json");
-  $usuariosJSON = explode(PHP_EOL, $jsonFile);
-  array_pop($usuariosJSON);
-  $usuariosTodos = [];
-  foreach ($usuariosJSON as $usuario) {
-    $usuariosTodos[] = json_decode($usuario, true);
-  }
-  return $usuariosTodos;
-}
-
-function createSchema() {
-  // This is not working because if I don't have the mandy_db schema, I can't connect.
-  $dsn = 'mysql:host=localhost; charset=utf8mb4;port:3306';
-  $db_user = 'root';
-  $db_pass = 'root';
-  $opciones = array( PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION );
-
-  try {
-    $db = new PDO($dsn, $db_user, $db_pass, $opciones);
-  }
-  catch( PDOException $Exception ) {
-      echo ("<br>".$Exception->getMessage()."<br>");
-  }
-
-  if ($db) {
-    try {
-      $ddl = "CREATE SCHEMA IF NOT EXISTS `mandy_db` DEFAULT CHARACTER SET utf8 ;";
-      $result=$db->exec($ddl);
-      var_dump($result);
-    }
-    catch (PDOException $ex) {
-      echo "Failure: ". $ex->getMessage()." <br>";
-    }
- }
- else {
-   echo "No database connection <br> ";
- }
-  $db = null;
-  return true;
-}
-
-function dropSchema() {
+/* function dropSchema() {
 // Cuidate con este!
-  $db = connectarDB();
+  $db = connectarBD();
   try {
     $ddl = "DROP SCHEMA `mandy_db`;";
     $result=$db->exec($ddl);
@@ -89,33 +19,10 @@ function dropSchema() {
 
   $db = null;
 
-}
-
-
-function createTablaUsuario () {
-  $db = connectarDB();
-
-  $ddl = "CREATE TABLE IF NOT EXISTS usuario (
-      id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-      name VARCHAR(45) NOT NULL,
-      surname VARCHAR(100) NOT NULL,
-      username VARCHAR(45) NOT NULL,
-      email VARCHAR(100) NOT NULL,
-      password VARCHAR(120) NULL,
-      question VARCHAR(200) NULL,
-      answer VARCHAR(80) NULL ) ";
-
-  try {
-    $result=$db->exec($ddl);
-    $db = null;
-  }
-  catch (PDOException $e) {
-    echo "Failure in createTablaUsuario(): ". $e->getMessage()." <br>";
-  }
-}
+}  */
 
 function dropTablaUsuario () {
-  $db = connectarDB();
+  $db = connectarBD();
 
   $ddl = "DROP TABLE mandy_db.usuario; ";
 
@@ -129,3 +36,23 @@ function dropTablaUsuario () {
 }
 
  ?>
+
+ <!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <title>Admin</title>
+   </head>
+   <body>
+     <h1>Administración - Convertir JSON to Base de Datos</h1>
+
+     <p>mandy_db exista? <?= esBDDisponible(); ?></p>
+     <p>tabla usuario exista? Rowcount: <?= esTablaDefinido("usuario"); ?></p>
+     <ul>
+       <li><a href="crearSchema.php">Crear BD</a></li>
+       <li><a href="crearTabla.php">Crear Tabla(s)</a></li>
+       <li><a href="importJSON.php">Importar Datos</a></li>
+     </ul>
+
+   </body>
+ </html>

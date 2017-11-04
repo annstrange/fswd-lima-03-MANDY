@@ -2,7 +2,7 @@
   require_once('fcs_mandy.php');
 
   if (isLoggedIn()) {
-    $usuario = getUserById($_SESSION['idUsuario']);
+    $usuario = getUserByIdBD($_SESSION['idUsuario']);
     $name = $usuario['name'];
     $surname = $usuario['surname'];
     $username = $usuario['username'];

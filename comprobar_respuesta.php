@@ -21,7 +21,7 @@
   $erroresTotales['password'] = '';
 
   if ($_POST) {
-    $erroresTotales['answer'] = validarRespuesta($usuario, $_POST);
+    $erroresTotales['answer'] = validarRespuestaBD($usuario, $_POST);
     $erroresTotales['password'] = validarNuevaPass($_POST);
     var_dump($erroresTotales);
     if ($erroresTotales['answer'] == ''
@@ -32,7 +32,7 @@
     }
   }
 
-  $pregunta = traerPregunta($usuario['id']);
+  $pregunta = traerPreguntaBD($usuario['id']);
   $pregunta = $questions[$pregunta];
 
   require_once('includes/head.php');

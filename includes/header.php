@@ -1,6 +1,6 @@
 <?php
   if (isLoggedIn()) {
-    $usuario = getUserById($_SESSION['idUsuario']);
+    $usuario = getUserByIdBD($_SESSION['idUsuario']);
     $username = $usuario['username'];
     $imgSrc = glob("images/img_profile/" . $username . ".*");
   }

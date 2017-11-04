@@ -37,15 +37,15 @@
     $repass = $_POST['repass'];
     $img_profile = $_FILES['img_profile'];
 
-    $erroresTotales = validarRegistro($_POST, $_FILES);
+    $erroresTotales = validarRegistroBD($_POST, $_FILES);
 
     if (empty($erroresTotales)) {
       $erroresTotales = guardarImagen($img_profile);
       if (empty($erroresTotales)) {
-        //crearUsuario($_POST, $_FILES);
-        $userId = insertUsuarioDB($_POST, $_FILES);
+        $userId = crearUsuarioBD($_POST, $_FILES);
+        //$userId = insertUsuarioDB($_POST, $_FILES);
         // $usuario = comprobarUsuario($username);
-        $usuario = getUserById($userId);
+        $usuario = getUserByIdBD($userId);
         logUserIn($usuario);
         header('location:perfil_usuario.php');
         exit;

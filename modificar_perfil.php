@@ -3,7 +3,7 @@
 require_once('fcs_mandy.php');
 
 if (isLoggedIn()) {
-  $usuario = getUserById($_SESSION['idUsuario']);
+  $usuario = getUserByIdBD($_SESSION['idUsuario']);
   $id = $usuario['id'];
   $name = $usuario['name'];
   $surname = $usuario['surname'];
@@ -23,12 +23,12 @@ if (isLoggedIn()) {
     $email = $_POST['email'];
     $img_profile = $_FILES['img_profile'];
 
-    $erroresTotales = validarCambios($_POST, $_FILES);
+    $erroresTotales = validarCambiosBD($_POST, $_FILES);
 
   if (empty($erroresTotales)) {
     $erroresTotales = modificarImagen($usuario, $img_profile);
     if (empty($erroresTotales)) {
-      updateUsuario($usuario, $_POST);
+      updateUsuarioBD($usuario, $_POST);
     }
   }
 }
