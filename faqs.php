@@ -2,6 +2,11 @@
 	require_once('fcs_mandy.php');
 	require_once('includes/head.php');
 	require_once('includes/header.php');
+
+	if (!dbExists()) {
+		header('Location: db/bd_admin.php');
+		exit;
+	}
 ?>
 
   <body>

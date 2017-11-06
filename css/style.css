@@ -391,7 +391,8 @@ h4:hover {
   text-transform: uppercase;
   letter-spacing: 1px;
   background-color: #0088a3;
-  color: #fff; }
+  color: #fff;
+  background-color: 20; }
 
 .artista h5 {
   font-size: 2em;
@@ -716,6 +717,12 @@ a.boton-imagen {
 
 a.boton-imagen:hover {
   background-color: #000A0F !important; }
+
+.bdResult {
+  font-size: 2em;
+  margin-top: 50px;
+  font-weight: 600;
+  color: #00b8d4; }
 
 @media(min-width: 600px) {
   .intro-center {

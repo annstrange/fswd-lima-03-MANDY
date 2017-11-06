@@ -1,6 +1,11 @@
 <?php
   require_once('fcs_mandy.php');
 
+  if (!dbExists()) {
+		header('Location: db/bd_admin.php');
+		exit;
+	}
+  
   if (isLoggedIn()) {
     $usuario = getUserByIdBD($_SESSION['idUsuario']);
     $name = $usuario['name'];

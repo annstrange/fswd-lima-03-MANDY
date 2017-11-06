@@ -1,40 +1,45 @@
 <?php
 
-require_once('fcs_mandy.php');
+  require_once('fcs_mandy.php');
 
-if (isLoggedIn()) {
-  $usuario = getUserByIdBD($_SESSION['idUsuario']);
-  $id = $usuario['id'];
-  $name = $usuario['name'];
-  $surname = $usuario['surname'];
-  $username = $usuario['username'];
-  $email = $usuario['email'];
-  $img_profile = [];
-  $imgSrc = glob("images/img_profile/" . $username . ".*");
-} else {
-  header('Location:login.php');
-  exit;
+  if (!dbExists()) {
+    header('Location: db/bd_admin.php');
+    exit;
   }
 
-  if ($_POST) {
-    $erroresTotales = [];
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $email = $_POST['email'];
-    $img_profile = $_FILES['img_profile'];
+  if (isLoggedIn()) {
+    $usuario = getUserByIdBD($_SESSION['idUsuario']);
+    $id = $usuario['id'];
+    $name = $usuario['name'];
+    $surname = $usuario['surname'];
+    $username = $usuario['username'];
+    $email = $usuario['email'];
+    $img_profile = [];
+    $imgSrc = glob("images/img_profile/" . $username . ".*");
+  } else {
+    header('Location:login.php');
+    exit;
+    }
 
-    $erroresTotales = validarCambiosBD($_POST, $_FILES);
+    if ($_POST) {
+      $erroresTotales = [];
+      $name = $_POST['name'];
+      $surname = $_POST['surname'];
+      $email = $_POST['email'];
+      $img_profile = $_FILES['img_profile'];
 
-  if (empty($erroresTotales)) {
-    $erroresTotales = modificarImagen($usuario, $img_profile);
+      $erroresTotales = validarCambiosBD($_POST, $_FILES);
+
     if (empty($erroresTotales)) {
-      updateUsuarioBD($usuario, $_POST);
+      $erroresTotales = modificarImagen($usuario, $img_profile);
+      if (empty($erroresTotales)) {
+        updateUsuarioBD($usuario, $_POST);
+      }
     }
   }
-}
 
-require_once('includes/head.php');
-require_once('includes/header.php');
+  require_once('includes/head.php');
+  require_once('includes/header.php');
  ?>
 
   <div class="page-container login-registro-content">

@@ -1,59 +1,46 @@
 <?php
+  $db = null;
+  require_once('conexion.php');
 
-$db = null;
-require_once('conexion.php');
-
-$result = import_json ();
-echo "Result of import_json(): ". $result." <br>";
-
-
-function import_json() {
-  // devuelva el numero de records imported successfully.
-  $db = connectarBD();
-
-  $todosUsuarios = todosLosUsuarios();
-  if (empty($todosUsuarios)) {
-    return 0;
+  if (import_json()) {
+    header('Location: ../index.php');
+    exit;
+  } else {
+    header('Location: bd_admin.php?jsonimportado=no');
+    exit;
   }
-  foreach ($todosUsuarios as $usuario){
-      var_dump($usuario);
 
-      $sql = "INSERT INTO usuario (name, surname, username, email, question, answer, password)
-      VALUES ('$usuario[name]', '$usuario[surname]', '$usuario[username]', '$usuario[email]', '$usuario[question]','$usuario[answer]', '$usuario[password]')";
-      try {
-        $query = $db->prepare($sql);
-        echo ($sql);
-        $query->execute();
+  function import_json() {
+    // Devuelve el número de registros importados correctamente.
+    $db = conectarBD();
+    $todosUsuarios = todosLosUsuarios();
+    if (empty($todosUsuarios)) {
+      return true;
     }
-    catch (PDOException $ex) {
-      echo "Failure in import_json(): ". $ex->getMessage()." <br>";
+    foreach ($todosUsuarios as $usuario) {
+        $sql = "INSERT INTO mandy_db.usuario (name, surname, username, email, question, answer, password) VALUES ('$usuario[name]', '$usuario[surname]', '$usuario[username]', '$usuario[email]', '$usuario[question]','$usuario[answer]', '$usuario[password]')";
+        try {
+          $query = $db->prepare($sql);
+          $query->execute();
+      }
+      catch (PDOException $exception) {
+        echo "Failure in import_json(): " . $exception->getMessage() . "<br>";
+        return false;
+      }
+    }
+    $db = null;
+    return true;
     }
 
+
+  function todosLosUsuarios() {
+    $jsonFile = file_get_contents("../todosUsuarios.json");
+    $usuariosJSON = explode(PHP_EOL, $jsonFile);
+    var_dump($usuariosJSON);
+    array_pop($usuariosJSON);
+    $usuariosTodos = [];
+    foreach ($usuariosJSON as $usuario) {
+      $usuariosTodos[] = json_decode($usuario, true);
+    }
+    return $usuariosTodos;
   }
-
-}
-
-function todosLosUsuarios() {
-  $jsonFile = file_get_contents("../todosUsuarios.json");
-  $usuariosJSON = explode(PHP_EOL, $jsonFile);
-  var_dump($usuariosJSON);
-  array_pop($usuariosJSON);
-  $usuariosTodos = [];
-  foreach ($usuariosJSON as $usuario) {
-    $usuariosTodos[] = json_decode($usuario, true);
-  }
-  return $usuariosTodos;
-}
-
- ?>
- <!DOCTYPE html>
- <html>
-   <head>
-     <meta charset="utf-8">
-     <title>Importar JSON</title>
-   </head>
-   <body>
-     <p></p>
-     <a type="button" href="bd_admin.php">Atrás</a>
-   </body>
- </html>

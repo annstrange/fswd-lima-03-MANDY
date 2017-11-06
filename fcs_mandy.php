@@ -1,6 +1,7 @@
 <?php
   session_start();
 	require_once('db/conexion.php');
+  require_once('fcs_json.php');
 
   // LOGGEO
   if (isset($_COOKIE['idUsuario'])) {
@@ -13,6 +14,24 @@
 
   function isLoggedIn() {
     return isset($_SESSION['idUsuario']);
+  }
+
+  function dbExists() {
+    $db = conectarBD();
+    $primerUsuarioBD = null;
+    try {
+      $query = $db->prepare("SELECT * FROM mandy_db.usuario");
+      $query->execute();
+      $primerUsuarioBD = $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $exception) {
+      echo $exception->getMessage() . "<br>";
+    }
+
+    if ($primerUsuarioBD) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -98,7 +117,7 @@ function validarRegistroBD($post, $files) {
   function comprobarEmailBD($email) {
     // devuelva true si hay usuario con este email
 
-    $db = connectarBD();
+    $db = conectarBD();
     $query = $db->prepare("SELECT id, name, surname, username, email, password, question, answer
         FROM usuario
         WHERE email = '$email'
@@ -124,7 +143,7 @@ function validarRegistroBD($post, $files) {
   function insertUsuarioBD($usuario){
     // expect $usuario to be an associative array
       $rowid = 0;
-      $db = connectarBD();
+      $db = conectarBD();
       $sqlQuery = "INSERT INTO usuario(name,surname,username,email,question, answer,password) VALUES(:name,:surname,:username,:email, :question,:answer,:password)";
 
       $statement = $db->prepare($sqlQuery);
@@ -306,7 +325,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
   // PERFIL DE USUARIO
   function getUserByIdBD($userId) {
     // Usa el BD
-    $db = connectarBD();
+    $db = conectarBD();
 
     $query = $db->prepare("SELECT id, name, surname, username, email, question, answer, password
         FROM usuario
@@ -315,12 +334,11 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
         ");
     try {
       $query->execute();
-
       $results = $query->fetchAll(PDO::FETCH_ASSOC);
       $db = null;
     }
     catch (PDOException $ex) {
-      echo ("Failure in getUserByIdBD():".$ex->getMessage()."");
+      echo "Failure in getUserByIdBD():" . $ex->getMessage();
     }
 
     return $results[0];
@@ -393,7 +411,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
         "email" => $post['email']
       ];
 
-      $db = connectarBD();
+      $db = conectarBD();
       $sqlQuery = "UPDATE usuario SET name = :name,
             surname = :surname,
             email=:email
@@ -419,7 +437,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
   function todosLosUsuariosDB() {
   // Devuelva array de usuarios de base de datos (BD)
   // En realidad, no necesitamos traer todos usuarios con BD.
-  $db = connectarBD();
+  $db = conectarBD();
   $query = $db->prepare("SELECT id, name, surname, username, email, password
       FROM usuario
       ");
@@ -434,7 +452,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
 
 /* function generarIdDB() {
   // no lo usamos porque Auto Increment lo genera
-    $db = connectarBD();
+    $db = conectarBD();
     $query = $db->prepare("SELECT MAX(id) as id
         FROM usuario
         ");
@@ -455,7 +473,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
         // Solo necesito "prepare" si queremos usar el query con frequencia con valores differente.
         // Por ejemplo, la busca de productos va a usar la misma query de productos muchas veces.
         // Debemos pre-prepare eso, o ejecutar directamente.
-/*        $db = connectarBD();
+/*        $db = conectarBD();
         $query = $db->prepare("SELECT id, name, surname, username, email, password, question, answer
             FROM usuario
             WHERE email = '$email'
@@ -483,7 +501,7 @@ function traerRespuestaBD($usuarioRecibido, $answer) {
         // $usuarios = todosLosUsuariosBD();
         //$usuarioExistente = [];
 
-        $db = connectarBD();
+        $db = conectarBD();
         $query = $db->prepare("SELECT id, email
             FROM usuario
             WHERE username = '$username'
