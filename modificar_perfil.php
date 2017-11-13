@@ -1,19 +1,20 @@
 <?php
 
-  require_once('fcs_mandy.php');
+  // require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
     header('Location: db/bd_admin.php');
     exit;
   }
 
-  if (isLoggedIn()) {
-    $usuario = getUserByIdBD($_SESSION['idUsuario']);
-    $id = $usuario['id'];
-    $name = $usuario['name'];
-    $surname = $usuario['surname'];
-    $username = $usuario['username'];
-    $email = $usuario['email'];
+  if ($auth->isLoggedIn()) {
+    $usuario = $db->getUserByIdBD($_SESSION['idUsuario']);
+    $id = $usuario->getId();
+    $name = $usuario->getName();
+    $surname = $usuario->getSurname();
+    $username = $usuario->getUsername();
+    $email = $usuario->getEmail();
     $img_profile = [];
     $imgSrc = glob("images/img_profile/" . $username . ".*");
   } else {
@@ -28,12 +29,12 @@
       $email = $_POST['email'];
       $img_profile = $_FILES['img_profile'];
 
-      $erroresTotales = validarCambiosBD($_POST, $_FILES);
+      $erroresTotales = $validator->validarCambiosBD($_POST, $_FILES, $db);
 
     if (empty($erroresTotales)) {
-      $erroresTotales = modificarImagen($usuario, $img_profile);
+      $erroresTotales = $usuario->modificarImagen($usuario, $img_profile);
       if (empty($erroresTotales)) {
-        updateUsuarioBD($usuario, $_POST);
+        $db->updateUsuarioBD($usuario, $_POST);
       }
     }
   }

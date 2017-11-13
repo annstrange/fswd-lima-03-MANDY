@@ -1,12 +1,13 @@
 <?php
-  require_once('fcs_mandy.php');
+  //require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
 
-  if (isLoggedIn()) {
+  if ($auth->isLoggedIn()) {
     header('Location:index.php');
     exit;
   }
@@ -42,19 +43,31 @@
     $repass = $_POST['repass'];
     $img_profile = $_FILES['img_profile'];
 
-    $erroresTotales = validarRegistroBD($_POST, $_FILES);
+    $erroresTotales = $validator->validarRegistroBD($_POST, $_FILES, $db);
 
     if (empty($erroresTotales)) {
-      $erroresTotales = guardarImagen($img_profile);
+      $usuario = new User($_POST["name"], $_POST["surname"], $_POST["username"], $_POST["email"], $_POST["question"], $_POST["answer"], $_POST["password"] );
+      $erroresTotales = $usuario->guardarImagen($img_profile);
+
       if (empty($erroresTotales)) {
-        $userId = crearUsuarioBD($_POST, $_FILES);
-        //$userId = insertUsuarioDB($_POST, $_FILES);
-        // $usuario = comprobarUsuario($username);
-        $usuario = getUserByIdBD($userId);
-        logUserIn($usuario);
-        header('location:perfil_usuario.php');
-        exit;
-      }
+
+    			$id = $db->insertUsuarioBD($usuario);
+          $usuario2 = $db->getUserByIdBD($id);
+
+          $auth->logUserIn($usuario2);
+    			header("Location:perfil_usuario.php");exit;
+    		}
+
+
+      // if (empty($erroresTotales)) {
+      //   $userId = $db->crearUsuarioBD($_POST, $_FILES);
+      //   //$userId = insertUsuarioDB($_POST, $_FILES);
+      //   // $usuario = comprobarUsuario($username);
+      //   $usuario = $db->getUserByIdBD($userId);
+      //   $auth->logUserIn($usuario);
+      //   header('location:perfil_usuario.php');
+      //   exit;
+      // }
     }
   }
 

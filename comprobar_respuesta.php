@@ -1,7 +1,8 @@
 <?php
-  require_once('fcs_mandy.php');
+  //require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
@@ -26,8 +27,8 @@
   $erroresTotales['password'] = '';
 
   if ($_POST) {
-    $erroresTotales['answer'] = validarRespuestaBD($usuario, $_POST);
-    $erroresTotales['password'] = validarNuevaPass($_POST);
+    $erroresTotales['answer'] = $validator->validarRespuestaBD($usuario, $_POST, $db);
+    $erroresTotales['password'] = $validator->validarNuevaPass($_POST);
     var_dump($erroresTotales);
     if ($erroresTotales['answer'] == ''
     && $erroresTotales['password'] == '') {
@@ -37,7 +38,7 @@
     }
   }
 
-  $pregunta = traerPreguntaBD($usuario['id']);
+  $pregunta = $db->traerPreguntaBD($usuario->getId());
   $pregunta = $questions[$pregunta];
 
   require_once('includes/head.php');

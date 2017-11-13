@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once('soporte.php');
 	require_once('db/conexion.php');
   require_once('fcs_json.php');
 

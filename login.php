@@ -1,28 +1,34 @@
 <?php
-  require_once('fcs_mandy.php');
+  //require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
 
-  if (isLoggedIn()) {
-    header('Location:index.php');
-    exit;
-  }
+  if ($auth->isLoggedIn()) {
+  // if (isLoggedIn()) {
+     header('Location:index.php');
+     exit;
+   }
 
   $erroresTotales = [];
   $email = '';
 
   if ($_POST) {
     $email = $_POST['email'];
-    $erroresTotales = validarLoginBD($_POST);
+    $erroresTotales = $validator->validarLoginBD($_POST, $db);
     if (empty($erroresTotales)) {
-      $usuario = comprobarEmailBD($email);
-      logUserIn($usuario);
+
+      $usuario = $db->comprobarEmailBD($email);
+      //logUserIn($usuario);
+      $auth->logUserIn($usuario);
+
       if (isset($_POST['remember'])) {
-        $time = time() + (60 * 60 * 24 * 365);
-        setcookie('idUsuario', $usuario['id'], $time);
+        $auth->rememberMe();
+        //$time = time() + (60 * 60 * 24 * 365);
+        //setcookie('idUsuario', $usuario['id'], $time);
       }
       header('location:perfil_usuario.php');
       exit;

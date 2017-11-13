@@ -1,17 +1,22 @@
 <?php
-  require_once('fcs_mandy.php');
+  // require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
-  
-  if (isLoggedIn()) {
-    $usuario = getUserByIdBD($_SESSION['idUsuario']);
-    $name = $usuario['name'];
-    $surname = $usuario['surname'];
-    $username = $usuario['username'];
-    $email = $usuario['email'];
+
+  if ($auth->isLoggedIn()) {
+    $usuario = $db->getUserByIdBD($_SESSION['idUsuario']);
+    // $name = $usuario['name'];
+    // $surname = $usuario['surname'];
+    // $username = $usuario['username'];
+    // $email = $usuario['email'];
+    $name = $usuario->getName();
+    $surname = $usuario->getSurname();
+    $username = $usuario->getUsername();
+    $email = $usuario->getEmail();
     $imgSrc = glob("images/img_profile/" . $username . ".*");
   } else {
     header('Location:login.php');

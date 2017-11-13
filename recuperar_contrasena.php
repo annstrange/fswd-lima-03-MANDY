@@ -1,7 +1,8 @@
 <?php
-  require_once('fcs_mandy.php');
+  // require_once('fcs_mandy.php');
+  require_once('soporte.php');
 
-  if (!dbExists()) {
+  if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
@@ -11,9 +12,9 @@
 
     if ($_POST) {
       $email = trim($_POST['email']);
-      $erroresTotales = validarEmailRecuBD($_POST);
+      $erroresTotales = $validator->validarEmailRecuBD($_POST, $db);
       if (empty($erroresTotales)) {
-        $usuario = comprobarEmailBD($email);
+        $usuario = $db->comprobarEmailBD($email);
         $_SESSION['userRecover'] = $usuario;
         header('Location:comprobar_respuesta.php');
         exit;

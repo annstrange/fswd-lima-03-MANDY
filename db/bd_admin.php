@@ -1,8 +1,9 @@
 <?php
 // Métodos para crear base de datos, y convertir de json archivo.
-  $db = null;
-  require_once('conexion.php');
-  require_once('../fcs_mandy.php');
+  //$db = null;
+  //require_once('conexion.php');
+  //require_once('../fcs_mandy.php');
+  require_once('soporte.php');
 
   // function dropSchema() {
   //   // ¡Cuidado con esta función!
@@ -43,9 +44,9 @@
   <body>
 
     <?php
-      if (isLoggedIn()) {
-        $usuario = getUserByIdBD($_SESSION['idUsuario']);
-        $username = $usuario['username'];
+      if ($auth->isLoggedIn()) {
+        $usuario = $db->getUserByIdBD($_SESSION['idUsuario']);
+        $username = $usuario->getUsername();
         $imgSrc = glob("images/img_profile/" . $username . ".*");
       }
     ?>
@@ -68,7 +69,7 @@
           <span class="ion-bag"></span>
         </a>
         <div class="links-mobile">
-          <?php if(isLoggedIn()) : ?>
+          <?php if($auth->isLoggedIn()) : ?>
             <div class="user-avatar">
               <img src="<?=$imgSrc[0];?>">
             </div>
@@ -92,7 +93,7 @@
           <li><a href="#">Categorías</a></li>
           <li><a href="#">Servicios</a></li>
           <li><a href="../faqs.php">FAQs</a></li>
-          <?php if(isLoggedIn()) : ?>
+          <?php if($auth->isLoggedIn()) : ?>
             <li><a href="../logout.php">Cerrar sesión</a></li>
           <?php endif; ?>
         </ul>
@@ -103,7 +104,7 @@
 
         <div class="links-desktop">
 
-          <?php if(isLoggedIn()) : ?>
+          <?php if($auth->isLoggedIn()) : ?>
             <span class="user-avatar">
               <img src="<?=$imgSrc[0];?>">
             </span>

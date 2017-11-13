@@ -5,7 +5,7 @@ define("DB_PASS", "root");
 
 function conectarBD() {
   // Se usa cuando ya tienes un schema
-  $dsn = 'mysql:host=127.0.0.1;dbname=movies_db;charset=utf8mb4;port:3306;';
+  $dsn = 'mysql:host=127.0.0.1;dbname=mandy_db;charset=utf8mb4;port:3306;';
   $db_user = constant("DB_USER");
   $db_pass = constant("DB_PASS");
   $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);

@@ -1,7 +1,9 @@
 <?php
-  if (isLoggedIn()) {
-    $usuario = getUserByIdBD($_SESSION['idUsuario']);
-    $username = $usuario['username'];
+  require_once('soporte.php');
+
+  if ($auth->isLoggedIn()) {
+    $usuario = $db->getUserByIdBD($_SESSION['idUsuario']);
+    $username = $usuario->getUsername();
     $imgSrc = glob("images/img_profile/" . $username . ".*");
   }
 ?>
@@ -24,13 +26,13 @@
       <span class="ion-bag"></span>
     </a>
     <div class="links-mobile">
-      <?php if(isLoggedIn()) : ?>
+      <?php if($auth->isLoggedIn()) : ?>
         <div class="user-avatar">
           <img src="<?=$imgSrc[0];?>">
         </div>
         <div class="user-display">
           <a href="perfil_usuario.php">
-            Hola, <?=$usuario['name'];?><br>
+            Hola, <?=$usuario->getName();?><br>
             <u>Ir a perfil &nbsp; ▸</u>
           </a>
 
@@ -48,7 +50,7 @@
       <li><a href="#">Categorías</a></li>
       <li><a href="#">Servicios</a></li>
       <li><a href="faqs.php">FAQs</a></li>
-      <?php if(isLoggedIn()) : ?>
+      <?php if($auth->isLoggedIn()) : ?>
         <li><a href="logout.php">Cerrar sesión</a></li>
       <?php endif; ?>
     </ul>
@@ -59,12 +61,12 @@
 
     <div class="links-desktop">
 
-      <?php if(isLoggedIn()) : ?>
+      <?php if($auth->isLoggedIn()) : ?>
         <span class="user-avatar">
           <img src="<?=$imgSrc[0];?>">
         </span>
         <span class="user-display">
-          Hola, <?=$usuario['name'];?> &nbsp; ▾
+          Hola, <?=$usuario->getName();?> &nbsp; ▾
         </span>
         <div class="user-menu">
           <ul>

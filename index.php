@@ -1,9 +1,10 @@
 <?php
-	require_once('fcs_mandy.php');
+	//require_once('fcs_mandy.php');
 	require_once('includes/head.php');
 	require_once('includes/header.php');
+	require_once('soporte.php');
 
-	if (!dbExists()) {
+	if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
 		exit;
 	}
