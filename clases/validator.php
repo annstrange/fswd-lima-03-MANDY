@@ -1,5 +1,5 @@
 <?php
-require_once('soporte.php');
+//require_once('soporte.php');
 //require_once('$dbMySql.php');
 require_once('user.php');
   class Validator{
@@ -107,14 +107,14 @@ require_once('user.php');
         }
 
         $password_ingresada = $post['password'];
-        echo "<br>elUsuario <br><br><br><br><br><br><br><br><br><br>";
-        var_dump($elUsuario);
-        echo "<br>pw from object <br>";
-        var_dump($elUsuario->pass);
-        echo "<br>pw ingresada <br>";
-        var_dump($password_ingresada);
-        echo "<br>pw <br>";
-        var_dump($password);
+        // echo "<br>elUsuario <br><br><br><br><br><br><br><br><br><br>";
+        // var_dump($elUsuario);
+        // echo "<br>pw from object <br>";
+        // var_dump($elUsuario->getPassword());
+        // echo "<br>pw ingresada <br>";
+        // var_dump($password_ingresada);
+        // echo "<br>pw <br>";
+        // var_dump($password);
         if (!password_verify($password_ingresada, $password)) {
            $errores['email'] = "E-mail o contraseña incorrectos";
         }
@@ -193,7 +193,7 @@ require_once('user.php');
             $errores['email'] = "Usá el formato nombre@dominio.com";
           }
           // AS - Este necesita ayuda.  Como sabemos que el email que exista es diferente
-          //     Pasé el id o el usuario viejo para ver. 
+          //     Pasé el id o el usuario viejo para ver.
           // elseif ($db->comprobarEmailBD($email) != $oldUser->getEmail() && $db->comprobarEmailBD($email) != false) {
           //   $errores['email'] = "Ya hay una cuenta asociada a este e-mail";
           // }

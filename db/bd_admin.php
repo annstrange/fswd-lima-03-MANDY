@@ -3,7 +3,7 @@
   //$db = null;
   //require_once('conexion.php');
   //require_once('../fcs_mandy.php');
-  require_once('soporte.php');
+  require_once('../soporte.php');
 
   // function dropSchema() {
   //   // ¡Cuidado con esta función!
@@ -75,7 +75,7 @@
             </div>
             <div class="user-display">
               <a href="../perfil_usuario.php">
-                Hola, <?=$usuario['name'];?><br>
+                Hola, <?=$usuario->getName();?><br>
                 <u>Ir a perfil &nbsp; ▸</u>
               </a>
 
@@ -109,7 +109,7 @@
               <img src="<?=$imgSrc[0];?>">
             </span>
             <span class="user-display">
-              Hola, <?=$usuario['name'];?> &nbsp; ▾
+              Hola, <?=$usuario->getName();?> &nbsp; ▾
             </span>
             <div class="user-menu">
               <ul>
@@ -149,11 +149,11 @@
         <div style="font-size: 20px">
           <p>
             La conexión está disponible?
-            <b><?php echo bdDisponible() ? "Sí" : "No";?></b>
+            <b><?php echo $db->bdDisponible() ? "Sí" : "No";?></b>
           </p>
 
             Existe la tabla "usuario"?
-            <b><?php echo existeTabla("usuario") ? "Sí" : "No";?></b>
+            <b><?php echo $db->existeTabla("usuario") ? "Sí" : "No";?></b>
           </p>
         </div>
 

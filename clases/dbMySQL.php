@@ -1,5 +1,5 @@
 <?php
-//require_once("soporte.php");
+// require_once("soporte.php");
 require_once("user.php");
 require_once("db.php");
 
@@ -226,8 +226,8 @@ class dbMySQL extends db {
               $query->execute();
 
               $results = $query->fetchAll(PDO::FETCH_ASSOC);
-              echo "<br> <br><br><br><br><br><br><br><br><br><br>results";
-                var_dump($results);
+              //echo "<br> <br><br><br><br><br><br><br><br><br><br>results";
+              //  var_dump($results);
               // $this->conexion = null;
 
               if (count($results) > 0){
@@ -302,7 +302,7 @@ class dbMySQL extends db {
               //$this->conexion= $this->__construct();
                 //$this->conexion= $conectarBD();
 
-                if ($db == null) {
+                if ($this == null) {
                   return false;
                 }
                 else {
