@@ -1,5 +1,4 @@
 <?php
-  // require_once('fcs_mandy.php');
   require_once('soporte.php');
 
   if (!$db->dbExists()) {
@@ -9,10 +8,6 @@
 
   if ($auth->isLoggedIn()) {
     $usuario = $db->getUserByIdBD($_SESSION['idUsuario']);
-    // $name = $usuario['name'];
-    // $surname = $usuario['surname'];
-    // $username = $usuario['username'];
-    // $email = $usuario['email'];
     $name = $usuario->getName();
     $surname = $usuario->getSurname();
     $username = $usuario->getUsername();
@@ -25,7 +20,6 @@
 
   require_once('includes/head.php');
   require_once('includes/header.php');
-
 ?>
 
     <div class="page-container login-registro-content">

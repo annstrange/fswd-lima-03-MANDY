@@ -1,8 +1,6 @@
 <?php
 // Métodos para crear base de datos, y convertir de json archivo.
-  //$db = null;
   //require_once('conexion.php');
-  //require_once('../fcs_mandy.php');
   require_once('../soporte.php');
 
   // function dropSchema() {

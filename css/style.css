@@ -583,13 +583,15 @@ h6 {
     margin: 10px 0;
     padding: 12px;
     background-color: #424242; }
-  .form-login-registro .boton-registrate {
+  .form-login-registro .boton-registrate{
     background-color: #000;
     font-size: 1.2em !important;
     margin-top: 10px; }
-  .form-login-registro .boton-registrate:hover {
+    .form-login-registro .boton-registrate a{
+      color: white; }
+  .form-login-registro .boton-registrate:hover{
     background-color: #424242 !important; }
-  .form-login-registro .boton-registrarme {
+  .form-login-registro .boton-registrarme{
     margin-top: 50px; }
   .form-login-registro span.error {
     color: #d10404;

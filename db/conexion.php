@@ -1,7 +1,7 @@
 <?php
 // Conexión a base de datos
 define("DB_USER", "root");
-define("DB_PASS", "root");
+define("DB_PASS", "");
 
 function conectarBD() {
   // Se usa cuando ya tienes un schema

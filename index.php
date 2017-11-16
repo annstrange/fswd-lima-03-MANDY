@@ -1,5 +1,4 @@
 <?php
-	//require_once('fcs_mandy.php');
 	require_once('includes/head.php');
 	require_once('includes/header.php');
 	require_once('soporte.php');
@@ -8,7 +7,6 @@
 		header('Location: db/bd_admin.php');
 		exit;
 	}
-
 ?>
 
 	<!-- CONTAINER -->
@@ -163,20 +161,6 @@
 				</a>
 			</center>
 		</section>
-
-		<!-- <section class="seccion">
-			<div class="section-title">
-				<h3>Productos recientes</h3>
-				<img src="images/separator.png" alt="Separator">
-				<p>Conoce a los artistas destacados del mes:</p>
-			</div>
-			<center>
-				<a class="ver-mas">
-					Ver más categorías
-				</a>
-			</center>
-		</section> -->
-
 
 	</div>
 	<?php require_once('includes/footer.php'); ?>

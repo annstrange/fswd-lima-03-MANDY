@@ -1,7 +1,6 @@
 <?php
-//require_once('soporte.php');
-//require_once('$dbMySql.php');
-require_once('user.php');
+require_once('soporte.php');
+
   class Validator{
     public function validarRegistroBD($post, $files, db $db) {
       // llama métodos de BD comprobarUsuarioBD y comprobarEmailBD
@@ -97,7 +96,6 @@ require_once('user.php');
         $errores['email'] = "Este e-mail no tiene cuenta asociada";
       } else {
         $elUsuario = $db->comprobarEmailBD($email);
-        //$password = $elUsuario['password'];
         if ($elUsuario) {
            $password = $elUsuario->getPassword();
            echo "<br><br><br><br><br><br> password $password";
@@ -107,22 +105,12 @@ require_once('user.php');
         }
 
         $password_ingresada = $post['password'];
-        // echo "<br>elUsuario <br><br><br><br><br><br><br><br><br><br>";
-        // var_dump($elUsuario);
-        // echo "<br>pw from object <br>";
-        // var_dump($elUsuario->getPassword());
-        // echo "<br>pw ingresada <br>";
-        // var_dump($password_ingresada);
-        // echo "<br>pw <br>";
-        // var_dump($password);
         if (!password_verify($password_ingresada, $password)) {
            $errores['email'] = "E-mail o contraseña incorrectos";
         }
       }
       return $errores;
     }
-
-
 
     function validarEmailRecuBD($post,db $db) {
       $errores = [];
@@ -180,6 +168,7 @@ require_once('user.php');
 
         if ($surname == '') {
           $errores['surname'] = "Completá tu apellido";
+          // ? 
           //  AS  missing comma next line:
         } elseif (!filter_var($surname, FILTER_VALIDATE_REGEXP, ['options'=>['regexp'=>'/^[a-zA-Z_ ]*$/']])) {
           $errores['surname'] = "El campo solo debe contener letras";
@@ -192,6 +181,8 @@ require_once('user.php');
           } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['email'] = "Usá el formato nombre@dominio.com";
           }
+
+          // ? REVISAR
           // AS - Este necesita ayuda.  Como sabemos que el email que exista es diferente
           //     Pasé el id o el usuario viejo para ver.
           // elseif ($db->comprobarEmailBD($email) != $oldUser->getEmail() && $db->comprobarEmailBD($email) != false) {

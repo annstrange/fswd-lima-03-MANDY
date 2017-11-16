@@ -1,5 +1,4 @@
 <?php
-  //require_once('fcs_mandy.php');
   require_once('soporte.php');
 
   if (!$db->dbExists()) {

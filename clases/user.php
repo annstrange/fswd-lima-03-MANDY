@@ -11,25 +11,6 @@
    private $answer;
    private $pass;
 
-  // //se supone que crearUsuarioBD= al constructor
-  //  function crearUsuarioBD($post, $files) {
-  //      $rowid = 0;
-  //      $usuarioAGuardarPHP = [
-  //          // 'id' => generarId(),
-  //          'name' => $post['name'],
-  //          'surname' => $post['surname'],
-  //          'username' => $post['username'],
-  //          'email' => $post['email'],
-  //          'question' => $post['question'],
-  //          'answer' => $post['answer'],
-  //          'password' => password_hash($post['password'], PASSWORD_DEFAULT)
-  //        ];
-  //
-  //      $rowid = insertUsuarioBD($usuarioAGuardarPHP);
-  //      return $rowid;
-  //    }
-
-
    public function __construct($name,$surname,$username,$email,$question,$answer,$pass,$id = NULL)
    {
      if($id == NULL){
@@ -40,6 +21,7 @@
        // Viene de la base
        $this->pass = $pass;
      }
+     // ?
      //$this->id=insertUsuarioBD($usuarioAGuardarPHP);
      $this->id=$id;  // despues de INSERT, consiguá el id.
      $this->name=$name;
@@ -110,7 +92,9 @@
 
        if ($imgExt == "jpg" || $imgExt == "jpeg" || $imgExt == "png" || $imgExt == "gif") {
          $fileName = $this->username . "." . $imgExt;
-         $imgSrc = dirname(__FILE__) . "../images/img_profile/" . $fileName;
+         $imgSrc = dirname(__FILE__);
+         $imgSrc = $imgSrc . "/../images/img_profile/";
+         $imgSrc = $imgSrc . $fileName;
          move_uploaded_file($imgTemp, $imgSrc);
        }
        else {
@@ -132,7 +116,9 @@
 
        if ($imgExt == "jpg" || $imgExt == "jpeg" || $imgExt == "png" || $imgExt == "gif") {
          $fileName = $this->username. "." . $imgExt;
-         $imgSrc = dirname(__FILE__) . "../images/img_profile/" . $fileName;
+         $imgSrc = dirname(__FILE__);
+         $imgSrc = $imgSrc . "/../images/img_profile/";
+         $imgSrc = $imgSrc . $fileName;
          move_uploaded_file($imgTemp, $imgSrc);
        } else {
          $errores['img_profile'] = "Debes subir una imagen jpg, jpeg, png o gif";

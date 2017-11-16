@@ -1,6 +1,4 @@
 <?php
-
-  // require_once('fcs_mandy.php');
   require_once('soporte.php');
 
   if (!$db->dbExists()) {
@@ -21,6 +19,7 @@
     header('Location:login.php');
     exit;
     }
+
 
     if ($_POST) {
       $erroresTotales = [];
@@ -44,7 +43,6 @@
  ?>
 
   <div class="page-container login-registro-content">
-
     <div class="titulo-registro">
       <h3>Mi Perfil</h3>
     </div>
@@ -59,11 +57,8 @@
         <img class="imagen-perfil" src= "<?=$imgSrc[0];?>" alt="imagen de perfil"><br>
         <input type="file" name="img_profile" id="img_profile" class="img_profile">
         <label for="img_profile">Subir nueva imagen</label>
-        <!-- <button class="boton-imagen" type="submit">Aceptar</button> -->
       </center>
-    <!-- </form>
 
-    <form class="form-login-registro" method="post" enctype="multipart/form-data"> -->
       <?php if (isset($erroresTotales['img_profile'])): ?>
         <span class="error">
           <span class="ion-close"></span>

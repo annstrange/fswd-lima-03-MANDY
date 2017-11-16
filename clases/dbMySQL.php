@@ -1,18 +1,13 @@
 <?php
-// require_once("soporte.php");
-require_once("user.php");
+require_once("soporte.php");
 require_once("db.php");
 
 class dbMySQL extends db {
   private $conexion;
 
-  // Connecion a base de datos, cambiado a constantes de clase
-  //define("DB_USER", "root");
-  //define("DB_PASS", "root");
   const DB_USER = 'root';
-  const DB_PASS = 'root';
+  const DB_PASS = '';
 
-//borre conectarsinBD y conectarBD y la reemplace por el __construct
     public function __construct() {
         // Se usa cuando ya tienes un schema
         $dsn = 'mysql:host=127.0.0.1;dbname=mandy_db;charset=utf8mb4;port:3306;';
@@ -21,7 +16,6 @@ class dbMySQL extends db {
         $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 
         try {
-        //$db=$this->conexion
           $this->conexion = new PDO($dsn, $db_user, $db_pass, $options);
         } catch(PDOException $exception) {
             echo "<br>" . $exception->getMessage() . "<br>";
@@ -64,12 +58,6 @@ class dbMySQL extends db {
         $queryId->execute();
 
           $results = $queryId->fetchAll(PDO::FETCH_ASSOC);
-          echo "results: ";
-          var_dump($results);
-
-          //$this->conexion = null;
-          //echo "<br><br><br><br><br> Hi from insertTest";
-          //var_dump($results);
 
           //return new User($results['id']); ???
           return $results[0]['id'];
@@ -89,13 +77,8 @@ class dbMySQL extends db {
         $query->execute();
 
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
-          //var_dump($results);
-          //$this->conexion = null;
         // Para hacer:  try catch, y confirma tengo una linea
         if (count($results) > 0){
-          // acá necesito devolver usuario completa
-          echo "<br> <br><br><br><br><br><br><br><br><br><br>results";
-          var_dump($results);
           return new User ($results[0]['name'],$results[0]['surname'],$results[0]['username'],$results[0]['email'],$results[0]['question'],$results[0]['answer'],$results[0]['password'],$results[0]['id']);
         }
         else {
@@ -105,7 +88,6 @@ class dbMySQL extends db {
       }
 
       public function traerPreguntaBD($id) {
-          //$usuarios = todosLosUsuarios();
           $usuario = $this->getUserByIdBD($id);
           $q1 = $usuario->getQuestion();
 
@@ -115,19 +97,6 @@ class dbMySQL extends db {
           else {
             return false;
           }
-          // //var_dump($usuario);
-          // $usuarioExistente['question'] = '';
-          // // foreach ($usuarios as $usuario) {
-          // // if($usuario['id'] == $id) {
-          //     $usuarioExistente['question'] = $usuario['question'];
-          //     // break;
-          //   }
-          // //}
-          // if ($usuarioExistente['question'] != '') {
-          //   return $usuarioExistente['question'];
-          // } else {
-          //   return false;
-          // }
         }
 
       public function traerRespuestaBD(user $user, $answer) {
@@ -207,9 +176,6 @@ class dbMySQL extends db {
                 $query->execute();
 
                 $results = $query->fetchAll(PDO::FETCH_ASSOC);
-                //var_dump($results);
-
-             //VALUES ($usuario[id], '$usuario[name]', '$usuario[surname]', '$usuario[username]', '$usuario[email]', '$usuario[password]')";
                return new User ($results[0]['name'],$results[0]['surname'],$results[0]['username'],$results[0]['email'],$results[0]['question'],$results[0]['answer'],$results[0]['password'],$results[0]['id']);
             }
 
@@ -226,8 +192,7 @@ class dbMySQL extends db {
               $query->execute();
 
               $results = $query->fetchAll(PDO::FETCH_ASSOC);
-              //echo "<br> <br><br><br><br><br><br><br><br><br><br>results";
-              //  var_dump($results);
+
               // $this->conexion = null;
 
               if (count($results) > 0){
@@ -243,7 +208,7 @@ class dbMySQL extends db {
               if ($this->conexion) {
                 try {
                   $ddl = "CREATE SCHEMA IF NOT EXISTS mandy_db DEFAULT CHARACTER SET utf8;";
-                  $$this->conexion->exec($ddl);
+                  $this->conexion->exec($ddl);
                 } catch (PDOException $exception) {
                   echo "Failure in createSchema(): " . $exception->getMessage() . "<br>";
                   return false;

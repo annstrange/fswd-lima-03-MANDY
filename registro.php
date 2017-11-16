@@ -1,6 +1,6 @@
 <?php
-  //require_once('fcs_mandy.php');
   require_once('soporte.php');
+  
 
   if (!$db->dbExists()) {
 		header('Location: db/bd_admin.php');
@@ -47,7 +47,9 @@
 
     if (empty($erroresTotales)) {
       $usuario = new User($_POST["name"], $_POST["surname"], $_POST["username"], $_POST["email"], $_POST["question"], $_POST["answer"], $_POST["password"] );
+
       $erroresTotales = $usuario->guardarImagen($img_profile);
+
 
       if (empty($erroresTotales)) {
 
@@ -57,17 +59,6 @@
           $auth->logUserIn($usuario2);
     			header("Location:perfil_usuario.php");exit;
     		}
-
-
-      // if (empty($erroresTotales)) {
-      //   $userId = $db->crearUsuarioBD($_POST, $_FILES);
-      //   //$userId = insertUsuarioDB($_POST, $_FILES);
-      //   // $usuario = comprobarUsuario($username);
-      //   $usuario = $db->getUserByIdBD($userId);
-      //   $auth->logUserIn($usuario);
-      //   header('location:perfil_usuario.php');
-      //   exit;
-      // }
     }
   }
 

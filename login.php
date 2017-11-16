@@ -1,5 +1,4 @@
 <?php
-  //require_once('fcs_mandy.php');
   require_once('soporte.php');
 
   if (!$db->dbExists()) {
@@ -8,7 +7,6 @@
 	}
 
   if ($auth->isLoggedIn()) {
-  // if (isLoggedIn()) {
      header('Location:index.php');
      exit;
    }
@@ -22,13 +20,10 @@
     if (empty($erroresTotales)) {
 
       $usuario = $db->comprobarEmailBD($email);
-      //logUserIn($usuario);
       $auth->logUserIn($usuario);
 
       if (isset($_POST['remember'])) {
         $auth->rememberMe();
-        //$time = time() + (60 * 60 * 24 * 365);
-        //setcookie('idUsuario', $usuario['id'], $time);
       }
       header('location:perfil_usuario.php');
       exit;
@@ -63,9 +58,8 @@
           </label>
           <a class="olvidar" href="recuperar_contrasena.php">¿Olvidó su contraseña?</a>
         </div>
-
         <button class="boton-ingresar" type="submit">Ingresar</button>
-        <button class="boton-registrate" type="button">Regístrate</button>
+        <button class="boton-registrate" type="button"><a href="registro.php">Regístrate</a></button>
 
       </form>
 

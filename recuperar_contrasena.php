@@ -1,5 +1,4 @@
 <?php
-  // require_once('fcs_mandy.php');
   require_once('soporte.php');
 
   if (!$db->dbExists()) {
@@ -15,6 +14,7 @@
       $erroresTotales = $validator->validarEmailRecuBD($_POST, $db);
       if (empty($erroresTotales)) {
         $usuario = $db->comprobarEmailBD($email);
+        //Falta hacer la funcion que guarde la nueva password
         $_SESSION['userRecover'] = $usuario;
         header('Location:comprobar_respuesta.php');
         exit;
